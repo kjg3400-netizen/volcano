@@ -25,12 +25,7 @@ rem keep already-made episodes out of the shortlist
 rem relearn channel weights - only on the run that passes "learn"
 if /I "%~1"=="learn" "%PY%" ref_econ\learn.py >> "%LOG%" 2>&1
 
-rem  --sid 101,105,104 = economy + IT/science + world.
-rem  Economy alone is mostly market/disclosure filler; the China-vs-us stories
-rem  that actually perform live in the world and IT sections. Measured
-rem  2026-08-21: economy section gave 3 of top 20 as "vs overseas", world gave
-rem  11 of 13. Costs ~5 min instead of ~1.5 min - fine for a scheduled run.
-"%PY%" ref_econ\hunt.py --sid 101,105,104 --top 20 >> "%LOG%" 2>&1
+"%PY%" ref_econ\hunt.py --top 20 >> "%LOG%" 2>&1
 
 if errorlevel 1 (
   echo [FAILED] hunt.py exit=%ERRORLEVEL% >> "%LOG%"

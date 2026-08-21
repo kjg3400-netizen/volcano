@@ -88,39 +88,6 @@ def ko_line(title):
     return ("\n     <i>%s</i>" % tg.esc(ko)) if ko else ""
 
 
-def china_block(sheet, top=5):
-    """★중국 칸 — 실적으로 확인된 이 채널 최고 꼴이라 알림 맨 위에 따로 둔다.
-
-    hunt.py 가 `china` 키에 따로 실어 준다. 점수 상위 N 밖에 있어도 여기엔
-    뜬다 — items 만 읽으면 정작 제일 좋은 소재가 조용히 빠진다.
-    """
-    cc = [x for x in (sheet.get("china") or []) if x.get("title")]
-    if not cc:
-        return ""
-    out = []
-    for x in cc[:top]:
-        mark = "○" if x.get("china") in ("관련",) else "◎"
-        url = ""
-        if x.get("oid") and x.get("aid"):
-            url = "https://n.news.naver.com/article/%s/%s" % (x["oid"], x["aid"])
-        elif x.get("aid"):
-            # 야후(일본판)는 oid 가 없고 aid 하나로 주소가 선다
-            url = "https://news.yahoo.co.jp/articles/%s" % x["aid"]
-        t = tg.esc(str(x["title"]).strip())
-        if url:
-            line = '%s <a href="%s">%s</a>' % (mark, tg.esc(url), t)
-        else:
-            line = "%s %s" % (mark, t)
-        bits = []
-        if x.get("cluster_comments"):
-            bits.append("💬%s" % x["cluster_comments"])
-        bits.append(age_str(x))
-        out.append(line + "\n     " + " · ".join(b for b in bits if b))
-    nd = sum(1 for x in cc if x.get("china") not in ("관련",))
-    cap = "🇨🇳 <b>중국 소재</b> — 이 채널 최고 꼴" + (" (◎ %d건)" % nd if nd else "")
-    return cap + "\n" + "\n".join(out) + "\n\n➖➖➖➖➖\n"
-
-
 def fmt_econ(i, it):
     url = ""
     if it.get("oid") and it.get("aid"):
@@ -302,10 +269,9 @@ def main():
         return 0
 
     body = [spec["fmt"](i, it) for i, it in enumerate(items[:a.top], 1)]
-    cn = china_block(sheet) if a.src in ("econ", "jp") else ""
-    msg = "%s <b>%s</b>\n<i>%s</i>\n\n%s%s" % (
+    msg = "%s <b>%s</b>\n<i>%s</i>\n\n%s" % (
         spec["label"], tg.esc(meta.get("stamp", "")), tg.esc(stats(meta)),
-        cn, "\n\n".join(body))
+        "\n\n".join(body))
 
     if a.dry:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")

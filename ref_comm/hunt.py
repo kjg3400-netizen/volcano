@@ -28,6 +28,7 @@ import argparse
 import concurrent.futures as cf
 import glob
 import html
+import io
 import json
 import os
 import re
@@ -38,6 +39,10 @@ from math import log10
 from statistics import median
 
 import requests
+
+# 펨코 차단 표시(⛔) 같은 글자를 cp949 콘솔에 찍다가 죽는 것을 막는다.
+# 예약 실행(pythonw·작업 스케줄러)은 콘솔 코드페이지가 cp949 라 여기서 터졌다.
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")

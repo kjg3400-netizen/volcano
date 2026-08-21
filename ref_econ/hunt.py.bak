@@ -35,7 +35,7 @@ SEEN_PATH = os.path.join(HERE, "seen.json")
 FIT_PATH = os.path.join(HERE, "channel_fit.json")
 
 sys.path.insert(0, HERE)
-from shapes import shape_of, china_grade           # noqa: E402  (learn.py 와 공용)
+from shapes import shape_of                        # noqa: E402  (learn.py 와 공용)
 
 
 FIT_W = {}          # 꼴 → {"mult": 배수}. main 에서 채운다
@@ -482,10 +482,6 @@ def score_item(it):
     sh = shape_of(it["title"])
     w = (FIT_W.get(sh) or {}).get("mult", 1.0)
     it["shape"] = sh
-    # ★중국 등급은 점수와 별개로 시트에 따로 뽑는다. 배수로 밀면 상한 1.6 에
-    #   걸려 물량 많은 증시 기사에 밀린다 — 사장님이 직접 고르시므로
-    #   순위 경쟁을 시키지 말고 별도 칸으로 보여 드리는 편이 낫다.
-    it["china"] = china_grade(it["title"])
     it["ch_mult"] = round(w, 2)
     it["naver_score"] = round(base, 1)
     it["score"] = round(base * w, 1)
@@ -528,7 +524,7 @@ def is_seen(it, seen):
 
 
 # ── 출력 ──────────────────────────────────────────────────────────────
-def write_sheet(rows, path, meta, allrows=None):
+def write_sheet(rows, path, meta):
     L = []
     L.append(f"# 경제 뇌전구 소재 후보 — {meta['stamp']}")
     L.append("")
@@ -536,38 +532,12 @@ def write_sheet(rows, path, meta, allrows=None):
              f"{meta['events']}개 사건으로 묶음 → 기존회차 {meta['dropped_seen']}개 제외 "
              f"→ 상위 {len(rows)}개")
     L.append("")
-    # ── ★중국 칸 — 실적으로 확인된 이 채널 최고 소재라 맨 위에 따로 둔다.
-    #   점수 상위 25개 안에 없어도 여기엔 뜬다(그게 이 칸의 존재 이유다).
-    pool_all = allrows if allrows is not None else rows
-    cc = [x for x in pool_all if x.get("china")]
-    if cc:
-        rank = {"맞대결": 0, "관련": 1}
-        cc.sort(key=lambda x: (rank.get(x["china"], 9), -x["score"]))
-        L.append("## ★중국 소재 — 이 채널 최고 꼴 (실측 3.45배)")
-        L.append("")
-        L.append("`◎맞대결` 은 자리를 뺏고 뺏기는 구도다. 실측에서 터진 편은 전부 이쪽이었다.")
-        L.append("`○관련` 은 중국이 나오지만 구도는 아니다 — 제목을 보고 고르셔야 한다.")
-        L.append("")
-        L.append("| | 최종 | 댓글 | 경과 | 제목 |")
-        L.append("|:--|--:|--:|--:|---|")
-        for x in cc[:12]:
-            mark = "◎맞대결" if x["china"] == "맞대결" else "○관련"
-            age = f"{x['age_hours']:.0f}h" if x.get("age_hours") is not None else "?"
-            L.append(f"| {mark} | {x['score']} | {x['cluster_comments']} | {age} "
-                     f"| [{x['title']}](https://n.news.naver.com/article/{x['oid']}/{x['aid']}) |")
-        L.append("")
-        L.append("---")
-        L.append("")
-
-    L.append("## 점수순 전체")
-    L.append("")
-    L.append("| # | 중국 | 꼴 | 채널배수 | 최종 | 네이버 | 댓글 | 반응 | 매체 | 경과 "
+    L.append("| # | 꼴 | 채널배수 | 최종 | 네이버 | 댓글 | 반응 | 매체 | 경과 "
              "| 정보% | 갈래 | 제목 |")
-    L.append("|--:|:--|:--|--:|--:|--:|--:|--:|--:|--:|--:|:--|---|")
+    L.append("|--:|:--|--:|--:|--:|--:|--:|--:|--:|--:|:--|---|")
     for i, r in enumerate(rows, 1):
         age = f"{r['age_hours']:.0f}h" if r.get("age_hours") is not None else "?"
-        cn = {"맞대결": "◎", "관련": "○"}.get(r.get("china"), "")
-        L.append(f"| {i} | {cn} | {r['shape']} | ×{r['ch_mult']} | **{r['score']}** "
+        L.append(f"| {i} | {r['shape']} | ×{r['ch_mult']} | **{r['score']}** "
                  f"| {r['naver_score']} | {r['cluster_comments']} "
                  f"| {r['cluster_reactions']} | {r['cluster_n']} | {age} "
                  f"| {r['info_pct']} | {r['lane']} | {r['title']} |")
@@ -694,24 +664,18 @@ def main():
     items.sort(key=lambda x: -x["score"])
     rows = items[: a.top]
 
-    # ★중국 건은 점수 상위 25 밖에 있을 수 있다. 폰 알림이 rows 만 읽으므로
-    #   따로 실어 보낸다 — 이게 없으면 알림에서 중국 칸이 조용히 비어 버린다.
-    _rank = {"맞대결": 0, "관련": 1}
-    china = sorted([x for x in items if x.get("china")],
-                   key=lambda x: (_rank.get(x["china"], 9), -x["score"]))[:12]
-
     meta = {"stamp": datetime.now().strftime("%Y-%m-%d %H:%M"), "sids": sids,
             "pool": len(pool), "measured": measured, "events": len(items) + dropped,
             "dropped_seen": dropped}
     jp = os.path.join(OUT, f"hunt_{stamp}.json")
     mp = os.path.join(OUT, f"hunt_{stamp}.md")
-    json.dump({"meta": meta, "items": rows, "china": china},
-              open(jp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    write_sheet(rows, mp, meta, allrows=items)
+    json.dump({"meta": meta, "items": rows}, open(jp, "w", encoding="utf-8"),
+              ensure_ascii=False, indent=1)
+    write_sheet(rows, mp, meta)
     # 예약 실행으로 돌 때 사장님이 바로 열 수 있게 고정 경로에도 쓴다.
     # (시각이 박힌 파일명은 폴더에서 찾아야 해서 불편하다)
-    write_sheet(rows, os.path.join(OUT, "_최신시트.md"), meta, allrows=items)
-    json.dump({"meta": meta, "items": rows, "china": china},
+    write_sheet(rows, os.path.join(OUT, "_최신시트.md"), meta)
+    json.dump({"meta": meta, "items": rows},
               open(os.path.join(OUT, "_최신시트.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
 
@@ -722,14 +686,6 @@ def main():
               f"댓{r['cluster_comments']:>5} 매체{r['cluster_n']:>3} {age:>4}  "
               f"{r['title'][:42]}")
     print("=" * 78)
-    if china:
-        nd = sum(1 for x in china if x["china"] == "맞대결")
-        print(f"★중국 소재 {len(china)}건 (◎맞대결 {nd} · ○관련 {len(china)-nd}) — 시트 맨 위 칸")
-        for x in china[:5]:
-            m = "◎" if x["china"] == "맞대결" else "○"
-            print(f"   {m} [{x['score']:>6.1f}] 댓{x['cluster_comments']:>4}  {x['title'][:46]}")
-    else:
-        print("★중국 소재 0건 — 오늘은 이 꼴이 안 떴다")
     print(f"\n시트: {mp}\n원자료: {jp}")
 
 

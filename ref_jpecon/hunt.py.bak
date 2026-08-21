@@ -36,7 +36,7 @@ SEEN_PATH = os.path.join(HERE, "seen.json")
 FIT_PATH = os.path.join(HERE, "channel_fit.json")
 
 sys.path.insert(0, HERE)
-from shapes_jp import shape_of, safety, china_grade   # noqa: E402
+from shapes_jp import shape_of, safety            # noqa: E402
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36")
@@ -206,8 +206,6 @@ def score_item(it):
     it["safety_why"] = why
     it["blocked"] = saf <= -0.5
     it["shape"] = sh
-    # ★중국 등급은 점수와 별개로 시트 맨 위에 따로 뽑는다 (실측 2.53배).
-    it["china"] = china_grade(it["title"], saf)
     it["ch_mult"] = round(w, 2)
     it["base_score"] = round(base, 1)
     it["score"] = round(base * (1 + 0.55 * saf) * w, 1)
@@ -285,32 +283,10 @@ def is_seen(it, seen):
 
 
 # ── 출력 ──────────────────────────────────────────────────────────────
-def write_sheet(rows, blocked, path, meta, allrows=None):
+def write_sheet(rows, blocked, path, meta):
     L = [f"# 일본 경제 뇌전구 소재 후보 — {meta['stamp']}", "",
          f"기사 {meta['pool']}건 → {meta['measured']}건 실측 → {meta['events']}개 사건 "
          f"→ 대전제 위험 {meta['blocked']}건 제외 → 상위 {len(rows)}개", ""]
-    # ── ★중국 칸. 점수 상위 밖이어도 여기엔 뜬다.
-    pool_all = allrows if allrows is not None else rows
-    cc = [x for x in pool_all if x.get("china")]
-    if cc:
-        rk = {"역설·일본우세": 0, "관련": 1}
-        cc.sort(key=lambda x: (rk.get(x["china"], 9), -x["score"]))
-        L.append("## ★중국 소재 — 쇼피드 최고 꼴 (실측 2.53배)")
-        L.append("")
-        L.append("`◎역설` 은 중국이 빠졌는데 일본은 늘었다는 구도다. 터진 두 편이 전부 이쪽이었다.")
-        L.append("`○관련` 은 중국이 나오지만 그 구도는 아니다. 대전제에 걸리는 것은 이미 빠져 있다.")
-        L.append("")
-        L.append("| | 최종 | 안전 | コメント | 경과 | 제목 |")
-        L.append("|:--|--:|--:|--:|--:|---|")
-        for x in cc[:10]:
-            mk = "◎역설" if x["china"] == "역설·일본우세" else "○관련"
-            ag = f"{x['age_hours']:.0f}h" if x.get("age_hours") is not None else "?"
-            L.append(f"| {mk} | {x['score']} | {x['safety']:+.2f} "
-                     f"| {x['cluster_comments']} | {ag} "
-                     f"| [{x['title']}](https://news.yahoo.co.jp/articles/{x['aid']}) |")
-        L += ["", "---", ""]
-
-
     L.append("| # | 꼴 | 안전 | 배수 | 최종 | コメント | はてブ | 매체 | 경과 | 제목 |")
     L.append("|--:|:--|--:|--:|--:|--:|--:|--:|--:|---|")
     for i, r in enumerate(rows, 1):
@@ -405,17 +381,13 @@ def main():
             "measured": measured, "events": len(items) + len(blocked),
             "blocked": len(blocked)}
     mp = os.path.join(OUT, f"hunt_{stamp}.md")
-    write_sheet(rows, blocked, mp, meta, allrows=items)
-    write_sheet(rows, blocked, os.path.join(OUT, "_최신시트.md"), meta, allrows=items)
+    write_sheet(rows, blocked, mp, meta)
+    write_sheet(rows, blocked, os.path.join(OUT, "_최신시트.md"), meta)
     # ★시각 박힌 json 도 남긴다 — brief.py 가 이걸 읽고, 지난 시트로 되돌아갈 때도 쓴다
-    # ★폰 알림이 rows 만 읽으므로 중국 건을 따로 실어 보낸다
-    _rk = {"역설·일본우세": 0, "관련": 1}
-    _china = sorted([x for x in items if x.get("china")],
-                    key=lambda x: (_rk.get(x["china"], 9), -x["score"]))[:10]
     for p in (os.path.join(OUT, f"hunt_{stamp}.json"),
               os.path.join(OUT, "_최신시트.json")):
-        json.dump({"meta": meta, "items": rows, "china": _china},
-                  open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        json.dump({"meta": meta, "items": rows}, open(p, "w", encoding="utf-8"),
+                  ensure_ascii=False, indent=1)
 
     print("\n" + "=" * 92)
     for i, r in enumerate(rows, 1):
