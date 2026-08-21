@@ -14,6 +14,7 @@
 import argparse
 import io
 import os
+import re
 import shutil
 import sys
 from datetime import datetime
@@ -107,6 +108,45 @@ def main():
         if os.path.isdir(p) and os.path.getmtime(p) < cut:
             shutil.rmtree(p, ignore_errors=True)
             print("  옛 백업 지움:", d)
+
+    git_push()
+
+
+GIT = r"C:\Program Files\Git\cmd\git.exe"
+
+
+def git_push():
+    """바뀐 게 있으면 깃허브에도 올린다.
+
+    ★`credential.helper=` 로 목록을 비운 뒤 store 만 쓴다 — 시스템 설정의
+      `manager`(로그인 창 담당)가 먼저 불리면 창을 못 띄우는 자리에서 죽는다.
+    ★백업이 목적이라 바뀐 걸 그대로 담는다. 올릴 게 없으면 조용히 넘어간다.
+    ★실패해도 예외를 안 던진다 — OneDrive 복사는 이미 끝난 뒤다.
+    """
+    import subprocess
+    if not os.path.exists(GIT):
+        print("  git 없음 — 깃허브는 건너뜀")
+        return
+    base = [GIT, "-c", "credential.helper=", "-c", "credential.helper=store"]
+    try:
+        st = subprocess.run([GIT, "status", "--porcelain"], cwd=ROOT,
+                            capture_output=True, text=True, encoding="utf-8",
+                            errors="replace")
+        if not (st.stdout or "").strip():
+            print("  깃허브: 바뀐 것 없음")
+            return
+        subprocess.run([GIT, "add", "-A"], cwd=ROOT, capture_output=True)
+        msg = "자동 백업 " + datetime.now().strftime("%Y-%m-%d %H:%M")
+        subprocess.run([GIT, "commit", "-q", "-m", msg], cwd=ROOT,
+                       capture_output=True)
+        p = subprocess.run(base + ["push", "origin", "main"], cwd=ROOT,
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace")
+        out = ((p.stdout or "") + (p.stderr or "")).strip()
+        out = re.sub(r"gh[pousr]_[A-Za-z0-9]+", "***", out)
+        print("  깃허브:", "올림" if p.returncode == 0 else "실패 — " + out[-200:])
+    except Exception as e:
+        print("  깃허브 실패:", str(e)[:120])
 
 
 if __name__ == "__main__":
