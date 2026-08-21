@@ -187,15 +187,43 @@ def fmt_jpcomm(i, it):
     return s
 
 
+def fmt_sport(i, it):
+    """축구·골프 클립 후보. 절대 조회수보다 **그 채널 중앙 대비 배수**가 먼저다 —
+    큰 채널의 평범한 편보다 작은 채널에서 터진 편이 재포장 가치가 높다."""
+    burst = float(it.get("burst") or 0)
+    mark = "⭐ " if burst >= 3.0 else ""
+    v = int(it.get("views") or 0)
+    bits = ["%.0f만" % (v / 10000) if v >= 10000 else "%s" % format(v, ",")]
+    if burst:
+        bits.append("×%.1f" % burst)
+    if it.get("shape"):
+        bits.append(tg.esc(it["shape"]))
+    if it.get("ch"):
+        bits.append(tg.esc(str(it["ch"])[:18]))
+    if it.get("age") is not None:
+        bits.append("%d일전" % int(it["age"]))
+    if not it.get("ontopic", True):
+        bits.append("⚠️주제밖")
+    url = "https://youtube.com/shorts/%s" % it.get("vid", "")
+    return head(i, it.get("title"), url, mark) + "\n     " + " · ".join(bits)
+
+
 SRC = {
     "econ": {"label": "📈 경제 소재", "dir": "ref_econ", "fmt": fmt_econ},
     "comm": {"label": "💬 커뮤 소재", "dir": "ref_comm", "fmt": fmt_comm},
     "jp":   {"label": "🇯🇵 일본 경제", "dir": "ref_jpecon", "fmt": fmt_jp},
     "jpcomm": {"label": "🇯🇵 일본 커뮤", "dir": "ref_jpcomm", "fmt": fmt_jpcomm},
-    # 짹짹(축구)·짧뷰(골프)·칩칩(춤) 용. 같은 ref_comm 폴더를 쓰지만 파일을 갈라
-    # 정규 커뮤 알림과 섞이지 않게 한다 (hunt.py --tag sport 가 만든다).
-    "sport": {"label": "⚽ 축구·골프·춤", "dir": "ref_comm",
+    # 짹짹(축구)·짧뷰(골프) 용 **커뮤 글** 갈래. 같은 ref_comm 폴더를 쓰지만 파일을
+    # 갈라 정규 커뮤 알림과 섞이지 않게 한다 (hunt.py --tag sport 가 만든다).
+    # ※춤은 뺐다 — 칩칩 전용 헌터(`ref_chipchip/hunt.py`)가 더 잘 잡는다
+    "sport": {"label": "⚽ 축구·골프 (커뮤 글)", "dir": "ref_comm",
               "file": "_최신시트_sport.json", "fmt": fmt_comm},
+    # ★이쪽이 본진이다 — 소스 채널 풀에서 낚은 **클립** 후보 (ref_sport/hunt.py).
+    #   위 커뮤 갈래는 '무슨 일이 있었나' 를 알려주는 레이더고, 여기가 실제 소재다
+    "soccer": {"label": "⚽ 축구 클립 (짹짹·神ショーツ)", "dir": "ref_sport",
+               "file": os.path.join("soccer", "_최신시트.json"), "fmt": fmt_sport},
+    "golf":   {"label": "⛳ 골프 클립 (짧뷰)", "dir": "ref_sport",
+               "file": os.path.join("golf", "_최신시트.json"), "fmt": fmt_sport},
 }
 
 

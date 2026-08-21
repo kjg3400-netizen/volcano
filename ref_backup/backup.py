@@ -28,7 +28,9 @@ KEYS = os.path.expanduser("~/.volcano/keys")
 
 # 복사할 것 — 도구와 규칙만
 TARGETS = ["CLAUDE.md", "ref_econ", "ref_jpecon", "ref_comm", "ref_jpcomm",
-           "ref_notify", "ref_clip", "ref_backup"]
+           "ref_notify", "ref_clip", "ref_backup", "ref_sport"]
+# ★`pool_*.json`·`seen_*.json` 은 반드시 담긴다 — 풀은 다시 만드는 데 몇 분 걸리고,
+#   중복목록을 잃으면 이미 쓴 클립을 또 추천한다. 캐시(cache/)만 뺀다.
 # 폴더 안에서도 뺄 것 (결과물·캐시)
 SKIP_DIRS = {"out", "__pycache__", "cache"}
 # 이름이 이러면 절대 복사하지 않는다

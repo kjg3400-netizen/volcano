@@ -1,0 +1,64 @@
+﻿[축구] 풀 45곳을 잰다…
+
+  Foot Mood                쇼츠  48 · 중앙   408,500 · 최근 21일 0건
+  Flush                    쇼츠  48 · 중앙   185,000 · 최근 21일 0건
+  Galinho FC               쇼츠  48 · 중앙    16,500 · 최근 21일 0건
+  BALRZZ.1                 쇼츠  48 · 중앙    26,500 · 최근 21일 0건
+  SnipeFlex                쇼츠  48 · 중앙    35,500 · 최근 21일 0건
+  Xendio                   쇼츠  48 · 중앙 1,100,000 · 최근 21일 0건
+  GrdArena                 쇼츠  48 · 중앙    34,500 · 최근 21일 0건
+  T7 Legacy                쇼츠  48 · 중앙   493,000 · 최근 21일 0건
+  Father and Son Goalkee   쇼츠  48 · 중앙    53,000 · 최근 21일 0건
+  The Scouse GK            쇼츠  48 · 중앙   123,000 · 최근 21일 8건
+  LA15I                    쇼츠  48 · 중앙    35,500 · 최근 21일 0건
+  The Wigan keeper         쇼츠  29 · 중앙    30,000 · 최근 21일 0건
+  FavBall                  쇼츠  48 · 중앙    28,500 · 최근 21일 0건
+  Hoanftbl                 쇼츠  48 · 중앙   320,500 · 최근 21일 0건
+  FootyRanks               쇼츠  48 · 중앙 2,800,000 · 최근 21일 0건
+  Primeftbl                쇼츠  48 · 중앙   370,500 · 최근 21일 0건
+  JariFootball             쇼츠  48 · 중앙   337,000 · 최근 21일 0건
+  Football Fancier         쇼츠  48 · 중앙    10,000 · 최근 21일 0건
+  Inside the Touchline     쇼츠  48 · 중앙    30,000 · 최근 21일 0건
+  FTBL7HD                  쇼츠  37 · 중앙    35,000 · 최근 21일 0건
+  Laneksa                  쇼츠  48 · 중앙   140,000 · 최근 21일 0건
+  Mr. Monpel               쇼츠  48 · 중앙    79,500 · 최근 21일 0건
+  ballday                  쇼츠  26 · 중앙    24,000 · 최근 21일 0건
+  Aaronftbl                쇼츠  20 · 중앙    59,500 · 최근 21일 2건
+  simple sports            쇼츠  48 · 중앙     7,100 · 최근 21일 0건
+  VAR Room                 쇼츠  48 · 중앙    57,500 · 최근 21일 0건
+  4erasyl4                 쇼츠  17 · 중앙    14,000 · 최근 21일 10건
+  Thogden                  쇼츠  48 · 중앙   240,500 · 최근 21일 0건
+  MarkFC                   쇼츠  48 · 중앙    79,500 · 최근 21일 0건
+  Pure Ballers             쇼츠  48 · 중앙   414,500 · 최근 21일 0건
+  RankXV                   쇼츠  41 · 중앙    23,000 · 최근 21일 0건
+  reyo                     쇼츠  48 · 중앙    33,000 · 최근 21일 0건
+  Strikr                   쇼츠  48 · 중앙   289,000 · 최근 21일 0건
+  Tifo Football by The A   쇼츠  48 · 중앙    47,000 · 최근 21일 4건
+  Foot Libre               쇼츠  48 · 중앙   278,500 · 최근 21일 0건
+  Tamy Bali                쇼츠  48 · 중앙     2,500 · 최근 21일 0건
+  Dosachan Edits           쇼츠  48 · 중앙   139,000 · 최근 21일 0건
+  Ben Nuttall              쇼츠  48 · 중앙   618,500 · 최근 21일 0건
+  StrikerStorm             쇼츠  48 · 중앙    25,500 · 최근 21일 0건
+  GoalFX                   쇼츠  48 · 중앙   446,000 · 최근 21일 0건
+  Flick FutboL             쇼츠  48 · 중앙    13,000 · 최근 21일 0건
+
+[레이더 4곳 — 소스로 쓰지 않는다. 여기 터진 클립은 원본을 찾아 가라]
+  Bundesliga · Foot Epic · Premier League · ESPN FC
+  전부 보려면 --with-repack
+
+  #         조회     배수  갈래          허락  채널                제목
+────────────────────────────────────────────────────────────────────────────────────────────────────────
+  1    975,830   7.9x  기타          ○   The Scouse GK     My Own Brother DID THIS TO ME! 😡
+  2     35,948   2.6x  골키퍼         ○   4erasyl4          Pickford prime🧤🔝#football #goalkeeper #s
+  3    221,529   1.8x  골키퍼         ○   The Scouse GK     “STICK THAT ON YOUR TIKTOK!” Goalkeeper 
+  4    233,673   5.0x  기타          ○   Tifo Football by  How fast is a sub-2 hour marathon really
+  5     16,247   1.2x  골키퍼         ○   4erasyl4          Donnarumma prime🧤🔝 #football #saves #goa
+  6     15,561   1.1x  골키퍼         ○   4erasyl4          De gea prime🧤🔝 #football #goalkeeper #sa
+  7     14,247   1.0x  골키퍼         ○   4erasyl4          Courtois prime🧤🔝 #football #goalkeeper #
+  8     16,212   1.2x  기타          ○   4erasyl4          #football #goals
+  9    138,799   2.3x  기타          ○   Aaronftbl         Yamal Choose Brother Over Girlfriends ❤️
+ 10      6,002   0.4x  골키퍼         ○   4erasyl4          Neuer prime🧤🔝 #football #supercell #save
+ 11     97,369   0.8x  기타          ○   The Scouse GK     I Trained Like Manuel Neuer 🐐
+ 12      4,191   0.3x  묘기·기술       ○   4erasyl4          Taarabt🐐 #football #skills #taarabt
+
+시트 → C:\Users\kjg34\Desktop\hitomi_downloaded_youtube\볼케이노\ref_sport\out\soccer\_최신시트.md

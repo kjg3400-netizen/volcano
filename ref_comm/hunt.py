@@ -1233,7 +1233,11 @@ def main():
 
     if a.sport:                       # 한글 인자를 .cmd 밖으로 빼기 위한 묶음
         if not a.only:
-            a.only = "축구,골프,춤"
+            # ★춤은 뺐다 (2026-08-21) — 칩칩 전용 헌터(`ref_chipchip/hunt.py`)가
+            #   소스 채널 풀로 훨씬 잘 잡는다. 같은 일을 두 군데서 하면 헷갈리기만 한다.
+            #   축구·골프도 클립 본진은 `ref_sport/hunt.py` 다 — 이쪽은 **커뮤 글**로
+            #   '무슨 일이 있었나'를 알려주는 레이더 몫만 한다
+            a.only = "축구,골프"
         if not a.tag:
             a.tag = "sport"
     drop = {x.strip() for x in a.drop.split(",") if x.strip()}
