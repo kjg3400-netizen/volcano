@@ -11,7 +11,7 @@
   "text": "진행시작햇으면알려줘",
   "kind": "text",
   "file": null,
-  "used": false
+  "used": true
  },
  {
   "t": "2026-08-21 16:02",
@@ -23,6 +23,27 @@
  {
   "t": "2026-08-21 18:20",
   "text": "이거 되는거여?",
+  "kind": "text",
+  "file": null,
+  "used": true
+ },
+ {
+  "t": "2026-08-22 13:38",
+  "text": "왜 시작안해?",
+  "kind": "text",
+  "file": null,
+  "used": true
+ },
+ {
+  "t": "2026-08-22 15:30",
+  "text": "나오고있어?",
+  "kind": "text",
+  "file": null,
+  "used": true
+ },
+ {
+  "t": "2026-08-22 17:34",
+  "text": "이제 여기서보내도 클로드코드랑 대화도가능하나?",
   "kind": "text",
   "file": null,
   "used": false

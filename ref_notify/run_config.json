@@ -1,0 +1,8 @@
+{
+ "_설명": "폰에서 온 주문을 실제로 굽게 할지. 끄려면 enabled 를 false 로.",
+ "_perm": "scoped = run_settings.json 의 allow 목록만 돈다(기본·권장). bypass = 권한확인을 통째로 건너뜀 — 쓰지 마라.",
+ "_막히면": "런이 중간에 서면 runs/run_*.log 에 무엇이 거부됐는지 남는다. 그 명령만 run_settings.json 에 한 줄 더한다.",
+ "enabled": true,
+ "perm": "scoped",
+ "max_min": 180
+}

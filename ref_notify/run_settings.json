@@ -1,0 +1,50 @@
+{
+  "_설명": "폰 주문으로 도는 헤드리스 claude 에만 얹히는 설정. 사장님이 터미널에서 쓰시는 세션에는 영향이 없다 (tg_worker.py 가 --settings 로 이 파일만 얹는다).",
+  "_울타리": "헤드리스에는 권한을 물어볼 사람이 없어, 여기 안 적힌 것은 그대로 거부된다. 그래서 이 allow 목록이 곧 울타리다 — 권한을 통째로 여는 --dangerously-skip-permissions 를 안 쓰는 이유가 이것이다.",
+  "_넓힐때": "런이 중간에 서면 runs/run_*.log 에 무엇이 거부됐는지 남는다. 그 명령만 여기 한 줄 더한다. 넓게 열지 마라.",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Write",
+      "Edit",
+      "TodoWrite",
+      "WebFetch",
+      "mcp__volcano__volcano_video",
+
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(C:/Users/kjg34/AppData/Local/Programs/Python/Python312/python.EXE:*)",
+      "Bash(C:\\Users\\kjg34\\AppData\\Local\\Programs\\Python\\Python312\\python.EXE:*)",
+
+      "Bash(ffmpeg:*)",
+      "Bash(ffprobe:*)",
+      "Bash(curl.exe:*)",
+
+      "Bash(cd:*)",
+      "Bash(ls:*)",
+      "Bash(dir:*)",
+      "Bash(mkdir:*)",
+      "Bash(echo:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(cat:*)",
+      "Bash(sed:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(wc:*)"
+    ],
+    "deny": [
+      "Bash(shutdown:*)",
+      "Bash(format:*)",
+      "Bash(reg:*)",
+      "Bash(schtasks:*)",
+      "Bash(net:*)",
+      "Bash(git push:*)",
+      "Bash(rm -rf /:*)"
+    ]
+  }
+}

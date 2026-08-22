@@ -43,6 +43,8 @@ import urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import tg            # noqa: E402
 import notify_hunt   # noqa: E402  시트 읽기·소스별 서식을 그대로 쓴다
+import tg_run        # noqa: E402  "만들어줘" 를 메모가 아니라 주문으로 알아듣는 층
+import tg_chat       # noqa: E402  메뉴에도 주문도 아닌 말에 그냥 답하는 층
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -301,8 +303,11 @@ def cmd_menu(arg, st):
             "<b>찜</b> — 찜해 둔 목록\n"
             "<b>창고</b> — 폰에서 던져 둔 소재\n"
             "<b>상태</b> — 헌터가 언제 돌았나\n"
-            "<b>납품</b> — 최근 완성본 (<code>납품 1</code> 이면 그 영상을 보낸다)\n\n"
-            "<i>그 밖의 말·링크·사진은 전부 창고로 들어갑니다.</i>")
+            "<b>납품</b> — 최근 완성본 (<code>납품 1</code> 이면 그 영상을 보낸다)\n"
+            "<b>주문</b> — 만들라고 하신 것 목록\n"
+            "<b>중단</b> — 지금 만들고 있는 것을 그만둔다\n\n"
+            "<i>「…만들어줘」 처럼 만들라는 말은 <b>주문</b>으로 알아듣고 바로 답합니다.\n"
+            "그 밖의 말·링크·사진은 창고로 들어갑니다.</i>")
 
 
 def cmd_sheet(arg, st):
@@ -433,6 +438,18 @@ def cmd_status(arg, st):
         made = 0
     lines.append("\n🔗 클립 %d건 · 📝 메모 %d건 · 📌 찜 %d건 · 🎬 완성본 %d편"
                  % (len(clip_todo()), memos, picks, made))
+
+    # 주문 — 지금 굽고 있는 게 있으면 그게 제일 궁금한 값이다
+    cur = tg_run.running()
+    if cur:
+        mins = (time.time() - cur.get("started", time.time())) / 60
+        lines.append("\n🎬 <b>지금 만드는 중</b> <i>(%.0f분째)</i>\n     %s"
+                     % (mins, tg.esc(cur.get("text", "")[:80])))
+    waiting = len(tg_run.pending())
+    if waiting:
+        lines.append("📋 대기 주문 %d건 — <b>주문</b> 으로 봅니다." % waiting)
+    if not tg_run.cfg().get("enabled"):
+        lines.append("<i>※ 폰에서 바로 만드는 스위치는 꺼져 있습니다.</i>")
     return "\n".join(lines)
 
 
@@ -478,6 +495,8 @@ VERBS = {
     "창고": cmd_store, "보관함": cmd_store,
     "상태": cmd_status, "현황": cmd_status,
     "납품": cmd_delivered, "완성본": cmd_delivered,
+    "주문": tg_run.cmd_orders, "주문함": tg_run.cmd_orders,
+    "중단": tg_run.cmd_stop, "취소": tg_run.cmd_stop, "그만": tg_run.cmd_stop,
 }
 
 
@@ -500,7 +519,25 @@ def dispatch(msg, st):
     fn = VERBS.get(head)
     if fn and not has_file:
         return fn(rest, st)
-    return stash(msg, text)          # 메뉴에 없으면 소재다
+
+    # ★메뉴에 없는 말이 전부 소재인 것은 아니다 — **만들라는 말은 주문**이다.
+    #   이 갈래가 없어서 "이걸 일본뇌전구로 만들어줘" 가 메모 한 줄로 묻혔다.
+    #   링크·사진이 딸린 주문은 창고에도 그대로 남긴다 (소재 기록은 잃지 않는다).
+    if text and tg_run.looks_like_order(text):
+        if has_file or tg_run.has_link(text):
+            stash(msg, text)
+        return tg_run.handle(text)
+
+    # ★메뉴에 없다고 창고에 처박지 않는다 — **물으신 것은 답한다.**
+    #   「클로드코드랑 대화도 가능하나?」 에 "창고에 넣었습니다" 라고 답하던 자리다.
+    #   링크·사진이 붙었으면 소재 기록은 창고에 그대로 남기고, 답을 덧붙인다.
+    stashed = stash(msg, text) if (has_file or tg_run.has_link(text)) else None
+    if text:
+        ans = tg_chat.reply_to(text)
+        if ans:
+            return (stashed + "\n\n" + ans) if stashed else ans
+
+    return stashed or stash(msg, text)   # 답을 못 받으면 예전처럼 창고로
 
 
 # ────────────────────────────── 한 바퀴 ──────────────────────────────
