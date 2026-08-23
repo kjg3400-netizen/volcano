@@ -1,2 +1,9 @@
 08-21 13:52:32 [bot] 이미 돌고 있다 — 그냥 나간다
 08-22 12:39:00 [bot] 잠금이 37559초 묵었다 — 뺏는다
+08-23 00:19:02 [bot] 이미 돌고 있다 — 그냥 나간다
+08-23 00:20:00 [bot] 이미 돌고 있다 — 그냥 나간다
+08-23 00:21:00 [bot] 이미 돌고 있다 — 그냥 나간다
+08-23 00:22:00 [bot] 이미 돌고 있다 — 그냥 나간다
+08-23 00:23:00 [bot] 잠금이 300초 묵었다 — 뺏는다
+08-23 21:16:01 [bot] getUpdates 실패: Remote end closed connection without response
+08-23 22:51:01 [bot] getUpdates 실패: Remote end closed connection without response
