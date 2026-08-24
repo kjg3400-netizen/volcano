@@ -59,10 +59,21 @@ def scan_delivered():
 def scan_workdirs():
     """workdir 의 delivered.json 에 적힌 제목·기사 id 를 줍는다."""
     titles, ids = [], []
-    for d in os.listdir(ROOT):
-        p = os.path.join(ROOT, d)
-        if not (d.startswith("work_") and os.path.isdir(p)):
-            continue
+    def _wds():
+        for d in sorted(os.listdir(ROOT)):
+            p = os.path.join(ROOT, d)
+            if not os.path.isdir(p) or d.startswith((".", "_", "ref_")):
+                continue
+            if d.startswith("work_"):
+                yield d, p
+                continue
+            # 채널 폴더(뇌전구_한국 …) 한 단계 아래의 workdir 도 본다 (2026-08-24 개편)
+            for s in sorted(os.listdir(p)):
+                q = os.path.join(p, s)
+                if s.startswith("work_") and os.path.isdir(q):
+                    yield s, q
+
+    for d, p in _wds():
         m = re.match(r"work_(?:np_)?(\d{3})_?(\d{10})$", d) or re.match(r"work_(\d{10})$", d)
         if m and len(m.groups()) == 2:
             ids.append(f"{m.group(1)}_{m.group(2)}")

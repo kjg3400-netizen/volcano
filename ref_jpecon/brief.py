@@ -163,7 +163,8 @@ def main():
             print("  ! 안전도가 음수다 — 대전제에 걸리지 않게 화살표 방향을 확인해라")
 
     name = a.dir or f"work_jp_{datetime.now():%Y%m%d}_{aid[:8]}"
-    wd = os.path.join(ROOT, name)
+    # 회차 workdir 는 채널 폴더 아래에 판다 (사장님 지시 2026-08-24)
+    wd = os.path.join(ROOT, "뇌전구_일본", name)
     os.makedirs(os.path.join(wd, "real"), exist_ok=True)
     print(f"\nworkdir: {wd}")
 

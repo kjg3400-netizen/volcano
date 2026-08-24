@@ -33,6 +33,33 @@
 
 ---
 
+# ★★작업 폴더는 채널별로 나뉘어 있다 (사장님 지시 2026-08-24)
+
+회차 workdir 를 **볼케이노 루트에 파지 마라** — 반드시 채널 폴더 아래에 판다.
+완성본은 지금처럼 `바탕화면\볼케이노 완성본\` 한곳에 모인다 (deliver 쪽은 그대로).
+
+| 채널 폴더 | 들어가는 것 |
+|---|---|
+| `뇌전구_한국\` | 숏단지 경제 `work_econ_*` · 방탐 커뮤 `work_comm_*` · 그 밖의 한국어 뇌전구 회차 |
+| `뇌전구_일본\` | 숏피드 경제 `work_jp_*` · 일본 커뮤 `work_jpcomm_*` · 일본판 뇌전구 회차 |
+| `쇼핑\` `명화관\` `린박스\` `웃긴버거\` `어랍숏\` `인물형\` | 나머지 볼케이노 프리셋 회차 |
+| `축구\` `골프\` `칩칩\` `정치\` `매일일보\` `리피\` `영어학습\` | 로컬 빌더 채널 회차 |
+
+- 도구(`ref_*`·`runner`·`myp`)와 공용 자산(`cache`·`fonts`·`pepe`·`bgm`·`sfx_norm`·`footage`)은 루트 그대로다
+- brief 3종(econ·jpecon·comm)은 채널 폴더 안에 workdir 를 알아서 판다 (2026-08-24 수정)
+- `deliver_sweep.py`(Stop 훅)는 두 단계까지 내려가 `out/` 을 찾는다 — 채널 폴더 안 workdir 는
+  자동으로 줍지만, **채널 폴더 안에 폴더를 한 겹 더 파면(세 단계) 훅이 못 본다.** 파지 마라
+- ★루트에 `work_*` 가 새로 보이면 흘린 것이다 — **다른 세션이 굽고 있지 않은지 확인한 뒤**
+  채널 폴더로 옮기고, `delivered.json` 안의 `src` 절대경로도 같이 고쳐라. 안 고치면
+  Stop 훅이 '안 나간 것'으로 착각해 사장님이 지우신 완성본을 되살린다
+- 옛 회차 폴더 안의 일회용 스크립트에 박힌 절대경로는 이동(2026-08-24) 전 것이라 낡았다 —
+  재편집할 때 그 파일만 고친다. 활성 도구(정치 vsheet·vzoom·recheck, 매일일보 검증 3종·fontmatch,
+  칩칩 probe_trend, 인물형 deliver_both)는 이미 고쳐 놨다
+- `kenchiku_jp\`(建築 일본판)는 원래부터 채널 폴더 꼴이라 그대로다. `work_ch_map`·`work_ch_545429` 는
+  채널 공통 조사라 루트에 남겼다
+
+---
+
 # 볼케이노 채널 작업 규약
 
 ## 영상 길이 상한 — 35초 (절대)
@@ -314,7 +341,7 @@ python ref_econ/learn.py                 # 채널 실적 다시 학습 (회차 �
 
 ## 소재 준비 뒤
 
-`brief.py` 가 `work_econ_<날짜>_<기사id>/` 에 `body.txt` · `real/` · `_sheet_real.jpg` 를 만든다.
+`brief.py` 가 `뇌전구_한국\work_econ_<날짜>_<기사id>/` 에 `body.txt` · `real/` · `_sheet_real.jpg` 를 만든다.
 **시트는 반드시 눈으로 본다** (규격 1184×880 에 못 미치는 사진이 섞인다).
 사진이 모자라면 `--with-siblings` 로 같은 사건 다른 매체 것까지 긁는다.
 이후는 기존 뇌전구 파이프라인 그대로 — 240자 이내, 컷 14~17개, 35초 상한.
@@ -326,7 +353,7 @@ python ref_econ/learn.py                 # 채널 실적 다시 학습 (회차 �
 · `learn.py` (채널 실적 학습 → `channel_fit.json`) · `shapes.py` (꼴 분류, hunt·learn 공용)
 · `seed_seen.py` (중복목록) · `daily.cmd` (예약 실행 래퍼 — ★ASCII 만 쓴다)
 · `econ_spec.md` (실측 기록) · 결과는 `ref_econ/out/`
-· 채널 진단 스크립트는 `work_ch_sudanjip/`
+· 채널 진단 스크립트는 `뇌전구_한국/work_ch_sudanjip/`
 
 ---
 
@@ -408,7 +435,7 @@ python ref_jpecon/seed_seen.py            # 중복목록 갱신
 `hunt.py` (발굴·실측·안전판정) · `shapes_jp.py` (꼴 분류 + 대전제 안전도)
 · `brief.py` (소재 준비 — ★스톡 크레딧을 경고한다) · `learn.py` (채널 실적 학습)
 · `seed_seen.py` (중복목록 — **가나로** 한국 회차와 가른다) · `daily.cmd` (예약 래퍼, ASCII 만)
-· `jpecon_spec.md` (실측 기록) · 결과는 `ref_jpecon/out/` · 채널 진단은 `work_ch_shortfi/`
+· `jpecon_spec.md` (실측 기록) · 결과는 `ref_jpecon/out/` · 채널 진단은 `뇌전구_일본/work_ch_shortfi/`
 
 ★**야후 기사 사진은 `newsatcl-pctr` 호스트만 쓴다.** `news-pctr`(사이드바 추천)·
 `s.yimg.jp`(UI 아이콘)를 안 거르면 무관한 사진이 딸려 온다 — 실측 6장 중 5장이 그랬다.
@@ -920,7 +947,7 @@ C:\Users\kjg34\Desktop\hitomi_downloaded_youtube\지침서모음\인물 서사�
 **mp4 만 내면 반쪽이다.** 지침서가 정한 결과물은 `template_out.py` 가 뽑는
 [제목]+불릿 대본+링크보드+SRT 한 세트다. 렌더 끝나면 이것도 같이 드린다.
 
-회차 예제는 `work_yamal/` (라민 야말, 한국어·일본어 2판). 새 회차는 전용 workdir 를 판다.
+회차 예제는 `인물형/work_yamal/` (라민 야말, 한국어·일본어 2판). 새 회차는 `인물형\` 안에 전용 workdir 를 판다.
 
 **야말 회차 대본은 2026-08-19 에 지침서대로 다시 썼다** — 인용문 도입 · 5단 · 컷 2.0초 고정 ·
 `근데`/`그러다`/`결국`/`그제야` · 마지막 대비 문장까지 맞춘 26컷 52초판이니 **본으로 써도 된다.**
@@ -1032,7 +1059,7 @@ python jjack_ccheck.py "이름"                   # 구조 자가검증
 
 `jjack_build.py` (mp4 빌더 — 규격이 기본값으로 박혀 있고 `--check` 로 띠·제목·자막·길이·
 움직임 자가검증. `--no-tts` 는 캐시만 쓴다) · `jjack_capcut.py` (캡컷 드래프트 생성기)
-· `jjack_ccheck.py` (드래프트 구조 검증) · 예제 job 은 `work_jjack_fight/job.json`
+· `jjack_ccheck.py` (드래프트 구조 검증) · 예제 job 은 `축구/work_jjack_fight/job.json`
 · mp4 납품은 기존 `deliver.py`
 
 ---
@@ -1159,7 +1186,7 @@ ASS 의 `\an5` 는 잉크가 아니라 **글자 상자** 기준이라 주아체�
 움직임 자가검증. `--no-tts` 는 캐시만 쓴다)
 · **`nono_capcut.py` (캡컷 드래프트 생성기 — 기본 납품. 검증은 축구 것 `jjack_ccheck.py`)**
 · 자산 `ref_nono/assets/bg_shortview.png`(흰 배경+헤더) · 조사 스크립트는 `ref_nono/`
-· 예제 job 은 `work_nono_test/job.json`, 컷·캡컷 예제는 `work_nono_balltest_0821/job.json`
+· 예제 job 은 `골프/work_nono_test/job.json`, 컷·캡컷 예제는 `골프/work_nono_balltest_0821/job.json`
 · 납품은 기존 `deliver.py`
 
 ★**`--check` 의 '밴드' 항목은 밝은 화면에서 거짓 미달이 뜬다.** 흰 실험복·흰 배경이
@@ -1256,7 +1283,7 @@ CLAUDE.md 에 항목이 없어 규격이 없는 줄 알고 새로 만들기 쉽�
 ## 재사용 스크립트
 
 빌더는 축구 것을 그대로 — `jjack_build.py` · `jjack_capcut.py` · `jjack_ccheck.py`.
-조사 스크립트는 `work_chipchip_simpson/` 에 있고 다른 채널에도 그대로 돌아간다:
+조사 스크립트는 `칩칩/work_chipchip_simpson/` 에 있고 다른 채널에도 그대로 돌아간다:
 `cc.py` (RSS+카탈로그) · `cc_measure.py` · `cc_measure2.py` (프레임 실측) · `cc_row.py`
 · `profile.py` (채널 전수 프로필) · `sheet_ref.py` · `sheet_hunt.py` (후보 시트)
 
@@ -1271,7 +1298,7 @@ CLAUDE.md 에 항목이 없어 규격이 없는 줄 알고 새로 만들기 쉽�
 **볼케이노 MCP 를 쓰지 않는다.** 로컬 ffmpeg + ASS 로 끝난다.
 시작 전에 `ref_maeil/maeil_spec.md` 를 읽는다.
 (채널 `UCRLwWtZEGyjZqkhCgSWe7_w` 쇼츠 69편 전수 메타 + 5편 픽셀 실측, 2026-08-21.
- 원자료 `work_ch_maeil/`)
+ 원자료 `매일일보/work_ch_maeil/`)
 
 ## 한 줄 요약
 
@@ -1348,8 +1375,8 @@ faster-whisper(CPU, torch 불필요)로 발화를 받아쓴다. **자막은 받�
 `--check` 자가검증. `--out` 은 **절대경로**로 줘라, ffmpeg 이 job 폴더에서 돈다)
 · `ref_maeil/asr_subs.py` (전사 → `subs`)
 · `ref_maeil/maeil_spec.md` (실측 기록)
-· 예제 job 은 `work_maeil_test/job.json` · 컷 예제는 `job_cuts.json`
-· 조사 스크립트는 `work_ch_maeil/` (`measure.py` · `timeline.py` · `clean.py` · `slots.py`
+· 예제 job 은 `매일일보/work_maeil_test/job.json` · 컷 예제는 `job_cuts.json`
+· 조사 스크립트는 `매일일보/work_ch_maeil/` (`measure.py` · `timeline.py` · `clean.py` · `slots.py`
 · `truband.py` · `fontmatch.py`) · 납품은 기존 `deliver.py`
 
 ---
@@ -1365,7 +1392,7 @@ faster-whisper(CPU, torch 불필요)로 발화를 받아쓴다. **자막은 받�
 
 시작 전에 `ref_poli/poli_spec.md` 를 읽는다. 아래는 요약이다.
 (본이 된 채널 `@우팔롬아` `UCsteJIK-yA1PRfi4_VGBC2A` 구독 39.3만 · 쇼츠 2,463편.
- 카탈로그 전수 + 60편 메타 + 8편 픽셀 실측, 2026-08-22. 원자료 `work_ch_poli/`)
+ 카탈로그 전수 + 60편 메타 + 8편 픽셀 실측, 2026-08-22. 원자료 `정치/work_ch_poli/`)
 
 ## 한 줄 요약
 
@@ -1458,7 +1485,7 @@ ssfm-v30 156명을 같은 문장으로 굽고 같은 자로 재서 가장 가까
 
 - 기준은 **흰 자막 구간**에서 뽑는다. 8편 중 2편에만 있고 합쳐 12.8초다
 - ★**한 자 설정으로 1등을 정하지 마라.** f0 는 유성 판정 문턱에 따라 1~2 반음 움직인다.
-  설정 셋에서 각각 줄 세워 순위의 합으로 본다 (`work_poli_voice/final.py`)
+  설정 셋에서 각각 줄 세워 순위의 합으로 본다 (`정치/work_poli_voice/final.py`)
 - ★**타입캐스트 크레딧이 바닥났다**(HTTP 402). 156/590 까지만 구웠고 **NATV 회차는
   아직 준기로 나가 있다.** 크레딧이 채워지면 job 의 `narration.voice` 줄만 지우면 된다
 - 자세한 것은 `ref_poli/poli_spec.md` 「나레이션 화자」 칸
@@ -1516,13 +1543,13 @@ ssfm-v30 156명을 같은 문장으로 굽고 같은 자로 재서 가장 가까
 **고정 크롭은 배율·비율·로고에 더해 밴드 그림을 원본과 픽셀로 대조한다**)
 · `ref_poli/zoomplan.py` (화면 계획 — `mode:"fixed"` 고정 크롭 / 없으면 옛 슬로우 줌)
 · `ref_poli/assets.py` (태극기 배경판) · `ref_poli/poli_spec.md` (실측 기록)
-· 회차 도구는 `work_poli_0823_natv/` — **`headread.py`(40px 격자로 정수리·턱 읽기)** ·
+· 회차 도구는 `정치/work_poli_0823_natv/` — **`headread.py`(40px 격자로 정수리·턱 읽기)** ·
 **`cropplan.py`(상반신 셈으로 크롭 계산 + 밴드 미리보기 + `--write`)** ·
 `cropwide.py`(원본 전체에 크롭 후보 겹쳐 보기) · `cropsheet.py`(크롭 후보 시트) ·
 `fx.py`(좌표 격자 프레임) · `outsheet.py`(완성본 컷 시트) · `align.py`(컷을 빼고 자막을
 앞당긴 뒤 소리와 다시 맞춰 본다) · `zoomin.py`(원본 이름자막 리본 읽기)
-· 목소리 조사는 `work_poli_voice/` (화자 고르기 — spec 「나레이션 화자」)
-· 예제 job 은 `work_poli_test/job.json` · 조사 스크립트는 `work_ch_poli/`
+· 목소리 조사는 `정치/work_poli_voice/` (화자 고르기 — spec 「나레이션 화자」)
+· 예제 job 은 `정치/work_poli_test/job.json` · 조사 스크립트는 `정치/work_ch_poli/`
 · 납품은 기존 `deliver.py`
 
 ---
@@ -1695,7 +1722,7 @@ python ref_chipchip/hunt.py --took <videoId> ...   # 쓴 것을 중복목록에
 ```
 
 시작 전에 `ref_chipchip/hunt_spec.md` 를 읽는다. 아래는 요약이다.
-(두 채널 카탈로그 전수 + 같은 원본 클립 71쌍 대조, 2026-08-21. 원자료 `work_hunt_0821/`)
+(두 채널 카탈로그 전수 + 같은 원본 클립 71쌍 대조, 2026-08-21. 원자료 `칩칩/work_hunt_0821/`)
 
 ## ★`@ランカー-p7k` 는 칩칩의 일본어 쌍둥이다 — 남의 채널이 아니다
 
@@ -1703,7 +1730,7 @@ python ref_chipchip/hunt.py --took <videoId> ...   # 쓴 것을 중복목록에
 **칩칩(2,810)보다 4배 크고 천장이 10배 높다.** 같은 클립을 양쪽에 올린 71쌍에서
 한국/일본 조회비 **중앙 0.40** — 같은 소재라도 일본이 2.5배 나온다.
 
-`work_chipchip/cand.tsv` 는 '일본엔 올렸고 한국엔 안 올린' 재고 목록이다.
+`칩칩/work_chipchip/cand.tsv` 는 '일본엔 올렸고 한국엔 안 올린' 재고 목록이다.
 
 ## ★춤 잘 추는 클립은 안 터진다 — 춤 옆에서 벌어지는 사건이 터진다
 

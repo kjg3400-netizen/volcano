@@ -248,7 +248,8 @@ def build_press_workdir(ev, d):
     """언론사 기사로 작업 폴더를 만든다. 네이버 경로(ref_econ/brief.py)와 결과가 같게."""
     eb = _load_econ_brief()
     host = re.sub(r"[^a-z0-9]", "", d["url"].split("/")[2].lower())[:14]
-    wd = os.path.join(ROOT, f"work_comm_{datetime.now():%m%d}_{host}")
+    # 커뮤형은 뇌전구(한국) 회차라 그 채널 폴더 아래에 판다 (2026-08-24 개편)
+    wd = os.path.join(ROOT, "뇌전구_한국", f"work_comm_{datetime.now():%m%d}_{host}")
     os.makedirs(os.path.join(wd, "real"), exist_ok=True)
 
     with open(os.path.join(wd, "body.txt"), "w", encoding="utf-8") as f:
@@ -361,10 +362,10 @@ def main():
         return r.returncode
 
     # 방금 만들어진 workdir 를 찾아 커뮤 반응을 적어 둔다
-    wds = sorted(glob.glob(os.path.join(ROOT, f"work_econ_*{aid[-6:]}*")),
+    wds = sorted(glob.glob(os.path.join(ROOT, "뇌전구_한국", f"work_econ_*{aid[-6:]}*")),
                  key=os.path.getmtime)
     if not wds:
-        wds = sorted(glob.glob(os.path.join(ROOT, "work_econ_*")),
+        wds = sorted(glob.glob(os.path.join(ROOT, "뇌전구_한국", "work_econ_*")),
                      key=os.path.getmtime)
     if wds:
         write_context(wds[-1], ev)

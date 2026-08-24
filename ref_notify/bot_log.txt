@@ -7,3 +7,8 @@
 08-23 00:23:00 [bot] 잠금이 300초 묵었다 — 뺏는다
 08-23 21:16:01 [bot] getUpdates 실패: Remote end closed connection without response
 08-23 22:51:01 [bot] getUpdates 실패: Remote end closed connection without response
+08-24 13:36:02 [bot] 이미 돌고 있다 — 그냥 나간다
+08-24 13:37:01 [bot] 이미 돌고 있다 — 그냥 나간다
+08-24 13:38:01 [bot] 이미 돌고 있다 — 그냥 나간다
+08-24 13:39:01 [bot] 이미 돌고 있다 — 그냥 나간다
+08-24 13:40:01 [bot] 잠금이 300초 묵었다 — 뺏는다

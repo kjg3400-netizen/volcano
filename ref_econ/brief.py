@@ -160,7 +160,8 @@ def main():
 
     oid, aid = targets[0]
     name = a.dir or f"work_econ_{datetime.now():%Y%m%d}_{oid}{aid[-6:]}"
-    wd = os.path.join(ROOT, name)
+    # 회차 workdir 는 채널 폴더 아래에 판다 (사장님 지시 2026-08-24)
+    wd = os.path.join(ROOT, "뇌전구_한국", name)
     real = os.path.join(wd, "real")
     os.makedirs(real, exist_ok=True)
     print(f"\nworkdir: {wd}")
