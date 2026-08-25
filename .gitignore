@@ -59,3 +59,9 @@ _tr_cache.json
 *.zip
 *.ttf
 *.otf
+
+# ── 채널별 규격 문서 ────────────────────────────────────────────────
+# ★`ref_jp` `ref_person` `ref_jjack` `ref_nono` `ref_chipchip` `ref_maeil` `ref_poli`
+#   는 자산(글꼴·PNG·영상)이 커서 위 화이트리스트에 일부러 안 넣었다.
+#   그 안의 `CLAUDE.md` 한 장만 `git add -f` 로 추적한다 — 폴더를 열지 마라.
+#   새 채널 문서를 만들면 그때도 `-f` 가 필요하다.
