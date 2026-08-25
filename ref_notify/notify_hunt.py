@@ -35,6 +35,14 @@ except Exception:
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# ★★폰 알림은 꺼 두었다 (사장님 지시 2026-08-25 「소재 창고 이제 보내지마」).
+#   헌터는 그대로 돈다 — 시트는 여전히 `ref_*/out/` 에 쌓이고, 폰으로 **밀어 주기만**
+#   멈춘 것이다. 자리에 앉으시면 봇의 `시트`·`시트 커뮤` 로 그대로 꺼내진다.
+#   ※완성본 알림(`deliver_sweep.py`)은 별개다 — 그쪽은 계속 나간다.
+#   되켤 때는 이 한 줄만 True 로. 호출처(daily.cmd 6개·7군데)는 손대지 않았다.
+PUSH = False
+
+
 # 채널 실적이 좋은 꼴은 별을 붙인다 (CLAUDE.md 배수표: 한국vs해외 1.60 · 인물거액 1.48)
 GOOD_MULT = 1.35
 # 교차 커뮤가 이만큼이면 크게 터진 것이다 (CLAUDE.md: 가장 센 신호는 교차 확산)
@@ -279,6 +287,13 @@ def main():
     ap.add_argument("--top", type=int, default=5)
     ap.add_argument("--dry", action="store_true", help="보내지 말고 화면에만 찍는다")
     a = ap.parse_args()
+
+    # 시트를 읽기도 전에 나간다 — 꺼져 있는데 「건진 게 없다」가 날아가면 안 된다.
+    if not (PUSH or a.dry):
+        sys.stdout.reconfigure(errors="replace")
+        print("폰 알림 꺼짐 (notify_hunt.PUSH=False) - 시트는 %s/out/ 에 그대로 있다"
+              % SRC[a.src]["dir"])
+        return 0
 
     spec = SRC[a.src]
     path = newest(spec["dir"], spec.get("file"))
