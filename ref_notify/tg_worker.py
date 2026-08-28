@@ -34,7 +34,18 @@ CLAUDE = os.path.join(os.environ.get("APPDATA", ""), "npm", "claude.cmd")
 SETTINGS = os.path.join(HERE, "run_settings.json")
 
 
+# ★폰 알림 스위치 (사장님 지시 2026-08-28 「결과 나오면 텔레그램으로 보내던거 다 중지」)
+#   주문이 끝났을 때 폰으로 가던 결과 한 줄(완료/시간초과/실패)을 껼다.
+#   소재 알림(`notify_hunt.PUSH`) · 완성본 알림(`deliver_sweep.PUSH`) 과 같은 방식이다 —
+#   되켜때는 이 한 줄만 `True` 로. 호출처(세 군데)는 손대지 않았다.
+#   ★런 자체는 그대로 돌고 결과도 그대로 남는다 — 오간 말은 `runs/run_*.log` 에,
+#     상태는 `orders.json` 에 찍힌다. 폰에서 `주문` · `상태` 로 그대로 꺼내진다.
+PUSH = False
+
+
 def note(msg):
+    if not PUSH:
+        return
     try:
         tg.send_text(msg)
     except Exception:

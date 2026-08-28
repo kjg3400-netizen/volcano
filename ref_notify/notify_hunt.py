@@ -38,7 +38,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # ★★폰 알림은 꺼 두었다 (사장님 지시 2026-08-25 「소재 창고 이제 보내지마」).
 #   헌터는 그대로 돈다 — 시트는 여전히 `ref_*/out/` 에 쌓이고, 폰으로 **밀어 주기만**
 #   멈춘 것이다. 자리에 앉으시면 봇의 `시트`·`시트 커뮤` 로 그대로 꺼내진다.
-#   ※완성본 알림(`deliver_sweep.py`)은 별개다 — 그쪽은 계속 나간다.
+#   ※완성본 알림(`deliver_sweep.py`)도 2026-08-28 에 껐다 — 스위치는 그 파일의 PUSH 다.
 #   되켤 때는 이 한 줄만 True 로. 호출처(daily.cmd 6개·7군데)는 손대지 않았다.
 PUSH = False
 
