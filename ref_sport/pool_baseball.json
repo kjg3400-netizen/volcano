@@ -1,0 +1,236 @@
+{
+ "@morethan_average": {
+  "name": "More Than Average",
+  "hits": 1,
+  "best": 94000000,
+  "perm": "○"
+ },
+ "@MLB": {
+  "name": "MLB",
+  "hits": 5,
+  "best": 68000000,
+  "perm": "✖"
+ },
+ "@MugibaraMijares": {
+  "name": "Mugibara Mijares",
+  "hits": 1,
+  "best": 43000000,
+  "perm": "○"
+ },
+ "@DugoutDaze": {
+  "name": "Dugout Daze",
+  "hits": 1,
+  "best": 21000000,
+  "perm": "○"
+ },
+ "@espn": {
+  "name": "ESPN",
+  "hits": 1,
+  "best": 21000000,
+  "perm": "✖"
+ },
+ "@PaulAnthonyBaseball": {
+  "name": "Paul Anthony Baseball",
+  "hits": 2,
+  "best": 20000000,
+  "perm": "○"
+ },
+ "@EXE-Edits": {
+  "name": "EXE-Edits",
+  "hits": 1,
+  "best": 17000000,
+  "perm": "○"
+ },
+ "@BaseballDoesntExist": {
+  "name": "Baseball Doesn't Exist",
+  "hits": 1,
+  "best": 15000000,
+  "perm": "○"
+ },
+ "@AP_MLB": {
+  "name": "AP | MLB ⚾️",
+  "hits": 13,
+  "best": 14000000,
+  "perm": "✖"
+ },
+ "@UmpireCentral": {
+  "name": "UmpireCentral",
+  "hits": 1,
+  "best": 13000000,
+  "perm": "○"
+ },
+ "@CallmeShay-v3r": {
+  "name": "CallmeShay",
+  "hits": 1,
+  "best": 12000000,
+  "perm": "○"
+ },
+ "@splashebaseball_": {
+  "name": "Splashe Baseball",
+  "hits": 3,
+  "best": 11000000,
+  "perm": "○"
+ },
+ "@leo_baseball": {
+  "name": "Leo Castillo",
+  "hits": 1,
+  "best": 11000000,
+  "perm": "○"
+ },
+ "@backwardks": {
+  "name": "backwardks",
+  "hits": 4,
+  "best": 10000000,
+  "perm": "○"
+ },
+ "@That_ballplayer_austin": {
+  "name": "Austin Shumaker",
+  "hits": 2,
+  "best": 8600000,
+  "perm": "○"
+ },
+ "@mynameislace": {
+  "name": "Lace",
+  "hits": 1,
+  "best": 7700000,
+  "perm": "○"
+ },
+ "@324Sports": {
+  "name": "324Sports",
+  "hits": 1,
+  "best": 7300000,
+  "perm": "○"
+ },
+ "@austinschultz23": {
+  "name": "Austin Schultz",
+  "hits": 1,
+  "best": 6500000,
+  "perm": "○"
+ },
+ "@gatzbii": {
+  "name": "Gatzbii Live",
+  "hits": 1,
+  "best": 5900000,
+  "perm": "○"
+ },
+ "@buzzybitesports": {
+  "name": "Buzzy Bite Sports",
+  "hits": 2,
+  "best": 5800000,
+  "perm": "○"
+ },
+ "@Johnny_Wood05": {
+  "name": "Baseball Highlights_______",
+  "hits": 2,
+  "best": 5400000,
+  "perm": "⚑"
+ },
+ "@ESPNMLB": {
+  "name": "ESPN MLB",
+  "hits": 2,
+  "best": 5000000,
+  "perm": "✖"
+ },
+ "@thehighlighthut5523": {
+  "name": "The Highlight Hut",
+  "hits": 1,
+  "best": 4099999,
+  "perm": "⚑"
+ },
+ "@TheOutliners.": {
+  "name": "The Outliners ",
+  "hits": 1,
+  "best": 3700000,
+  "perm": "○"
+ },
+ "@TopMLBClips": {
+  "name": "Top MLB Clipz",
+  "hits": 1,
+  "best": 3700000,
+  "perm": "✖"
+ },
+ "@JomboyMedia": {
+  "name": "Jomboy Media",
+  "hits": 4,
+  "best": 3200000,
+  "perm": "○"
+ },
+ "@Dylan_Anderson": {
+  "name": "Dylan Anderson",
+  "hits": 1,
+  "best": 3200000,
+  "perm": "○"
+ },
+ "@SFGiants": {
+  "name": "San Francisco Giants",
+  "hits": 1,
+  "best": 3100000,
+  "perm": "○"
+ },
+ "@TopHitter21": {
+  "name": "TopHitter",
+  "hits": 2,
+  "best": 2900000,
+  "perm": "○"
+ },
+ "@coachrac": {
+  "name": "Coach RAC",
+  "hits": 2,
+  "best": 2100000,
+  "perm": "○"
+ },
+ "@Top5sportsvids": {
+  "name": "Top 5 Sports🔥",
+  "hits": 1,
+  "best": 2100000,
+  "perm": "○"
+ },
+ "@AdamArroyoo": {
+  "name": "Adam Arroyo",
+  "hits": 1,
+  "best": 2000000,
+  "perm": "○"
+ },
+ "@FiveToolBSB": {
+  "name": "Five Tool Baseball",
+  "hits": 1,
+  "best": 1900000,
+  "perm": "○"
+ },
+ "@Gap2GapMLB": {
+  "name": "Gap to Gap",
+  "hits": 1,
+  "best": 1600000,
+  "perm": "✖"
+ },
+ "@HitFlixYT": {
+  "name": "HitFlix",
+  "hits": 1,
+  "best": 1600000,
+  "perm": "○"
+ },
+ "@JMBaseball": {
+  "name": "JM Baseball",
+  "hits": 1,
+  "best": 1400000,
+  "perm": "○"
+ },
+ "@brentpourciau": {
+  "name": "TopVelocity.net",
+  "hits": 1,
+  "best": 1400000,
+  "perm": "○"
+ },
+ "@foxsports": {
+  "name": "FOX Sports",
+  "hits": 2,
+  "best": 1300000,
+  "perm": "✖"
+ },
+ "@red_jacketclub": {
+  "name": "The Red Jacket Club Podcast",
+  "hits": 1,
+  "best": 1100000,
+  "perm": "○"
+ }
+}

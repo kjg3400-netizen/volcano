@@ -49,6 +49,21 @@ OTHER_SPORT = [
 ]
 
 
+# ★야구 전용 타종목 목록 — 위의 OTHER_SPORT 를 그대로 쓰면 안 된다.
+#   거기엔 `baseball`·`mlb` 가 들어 있어 야구를 통째로 막고,
+#   크리켓 낱말로 넣어 둔 `batter` 는 **야구의 타자**라 정타를 다 죽인다.
+OTHER_SPORT_BB = [k for k in OTHER_SPORT if k not in ("mlb", "baseball", "batter")] + [
+    # 축구·골프 — 사장님의 다른 채널이라 섞이면 안 된다
+    "soccer", "premier league", "champions league", "la liga",
+    "golf", "pga", "hole in one", "birdie", "tee shot",
+]
+# 야구 게임 화면 — 실사만 쓴다
+GAME_BB = GAME + [
+    "mlb the show", "the show 24", "the show 25", "out of the park",
+    "baseball 9", "super mega baseball", "backyard baseball",
+]
+
+
 TOPICS = {
     # ──────────────────────────────────────────────────────────────────────
     "축구": {
@@ -180,7 +195,7 @@ TOPICS = {
         "gl": "US",
         "hl": "en",
         # 짧뷰는 한국 채널 하나뿐이라 **일본 원본은 막지 않는다.** 한국 것만 뺀다
-        "skip_kana": False,
+        "skip_kana": True,
         "drop": GAME + OTHER_SPORT + ["pga tour 2k", "golf clash", "wgt golf"],
         "drop_why": "게임·타종목",
         "anchor": "golf",
@@ -284,13 +299,116 @@ TOPICS = {
                 "shop", "store"]),
         ],
     },
+
+    # ──────────────────────────────────────────────────────────────────────
+    "야구": {
+        "key": "baseball",
+        "label": "야구 (한국판·일본판)",
+        # MLB 가 소재의 중심이라 미국 로케일이다. KBO·NPB 는 한글·가나로 걸러진다.
+        "gl": "US",
+        "hl": "en",
+        # ★한국판·일본판을 둘 다 내므로 한글·가나를 다 뺀다 (축구와 같다)
+        "skip_kana": True,
+        "drop": GAME_BB + OTHER_SPORT_BB,
+        "drop_why": "게임·타종목",
+        "anchor": "baseball",
+        # 축구·골프와 같은 이유 — 재포장 채널이 쓸 소재는 이미 사람이 본 것이라야 한다
+        "daily_mode": "best",
+        # 중계 화면이 중계권자 것이라 '허락받을 원본 채널' 이 없다. 축구와 같은 판단.
+        "radar_marks": ["✖"],
+
+        "queries": [
+            # 판정·논란 — 채널이 제일 원하는 축
+            "umpire controversial call baseball", "worst umpire call ever",
+            "blown call baseball", "replay review overturned baseball",
+            "check swing controversy", "umpire ejects manager argument",
+            "umpire gets it wrong", "baseball call reversed",
+            # 희한한 플레이 — 실제 회차가 여기서 나왔다 (협살·인사이드파크)
+            "rundown baseball crazy", "weirdest play in baseball",
+            "rarest play in baseball", "never seen before baseball",
+            "bizarre baseball moment", "baseball rule nobody knows",
+            "triple play rare", "inside the park home run",
+            "obstruction call baseball", "balk call explained",
+            # 수비·묘기
+            "incredible catch baseball", "diving catch outfield",
+            "outfielder robs home run", "catcher blocks the plate",
+            "barehanded play infield", "double play turned amazing",
+            # 사건·난입 — 경기 옆에서 벌어지는 일
+            "fan interference baseball", "fan runs on field baseball",
+            "bench clearing brawl baseball", "game delayed animal on field",
+            "object thrown on field baseball", "bat flip drama",
+            # 황당·웃긴
+            "funniest baseball moments", "baseball blooper unbelievable",
+            "fan catches ball one handed", "mascot baseball funny",
+        ],
+        "queries_ko": [
+            "야구 오심 논란", "야구 판정 논란", "야구 비디오판독",
+            "야구 호수비", "야구 협살", "야구 난입",
+            "야구 벤치클리어링", "야구 황당 장면", "야구 진기명기",
+        ],
+
+        # 주제 맥락 — 없으면 점수를 크게 깎는다 (버리진 않는다)
+        # ★두루뭉술한 낱말을 넣지 마라 — `pitch`·`base`·`run`·`catch` 는 어디에나 있다
+        "context": [
+            "야구", "투수", "타자", "포수", "심판", "오심", "홈런", "번트",
+            "도루", "병살", "협살", "만루", "이닝", "선발", "마무리",
+            "baseball", "pitcher", "catcher", "umpire", "home run", "homer",
+            "strikeout", "strike out", "bunt", "stolen base", "double play",
+            "triple play", "infield", "outfield", "shortstop", "dugout",
+            "bullpen", "inning", "grand slam", "walk off", "walkoff",
+            "fastball", "curveball", "slider", "changeup", "mound",
+            "mlb", "npb", "kbo", "world series", "little league",
+        ],
+
+        # ★순서가 결과를 바꾼다. 좁은 것부터 본다
+        "shapes": [
+            ("판정·논란", 1.35, [
+                "umpire", "blown call", "controversial call", "wrong call",
+                "replay review", "overturned", "reversed", "check swing",
+                "ejected", "ejects", "ejection", "argues", "argument",
+                "robbed", "controversy", "obstruction", "balk",
+                "오심", "심판", "판정", "논란", "비디오판독"]),
+            ("사건·난입", 1.30, [
+                "fan interference", "runs on field", "brawl", "bench clearing",
+                "fight", "thrown", "throws at", "interrupted", "delayed",
+                "streaker", "chaos", "ejected fan",
+                "난입", "몸싸움", "벤치클리어링", "중단"]),
+            ("수비·묘기", 1.20, [
+                "catch", "diving", "robs", "robbed", "double play",
+                "triple play", "barehanded", "throw out", "guns down",
+                "no look", "behind the back",
+                "호수비", "선방", "묘기", "협살"]),
+            ("신기·황당", 1.15, [
+                "weirdest", "strangest", "bizarre", "rarest", "rare",
+                "never seen", "unbelievable", "you won't believe",
+                "rule", "first time", "inside the park",
+                "황당", "신기", "진기명기", "처음"]),
+        ],
+
+        # 채널 표시 — 축구·골프와 같은 뼈대
+        "kinds": [
+            ("방송", "✖", [
+                "mlb", "espn", "fox sports", "mlb network", "bally sports",
+                "nbc sports", "tbs", "sportsnet", "npb", "kbo",
+                "official", "broadcast", "방송", "중계"]),
+            ("재포장", "⚑", [
+                "짤", "유머", "모음", "픽업", "순삭", "스낵", "meme", "clips",
+                "highlight", "compilation", "daily", "viral", "best of",
+                "shorts", "hub", "zone"]),
+            ("브랜드·용품", "◎", [
+                "rawlings", "wilson", "louisville slugger", "marucci",
+                "easton", "mizuno", "victus", "axe bat", "batting cage",
+                "academy", "아카데미", "용품", "샵", "shop", "store"]),
+        ],
+    },
 }
 
 
 def get(name):
     """이름으로 주제를 찾는다. 별칭도 받는다."""
     alias = {"soccer": "축구", "football": "축구", "짹짹": "축구", "jjack": "축구",
-             "golf": "골프", "짧뷰": "골프", "nono": "골프"}
+             "golf": "골프", "짧뷰": "골프", "nono": "골프",
+             "baseball": "야구", "yagu": "야구", "yakyu": "야구"}
     n = alias.get(name.strip().lower(), name.strip())
     if n not in TOPICS:
         raise SystemExit(f"모르는 주제: {name}   (쓸 수 있는 것: {', '.join(TOPICS)})")

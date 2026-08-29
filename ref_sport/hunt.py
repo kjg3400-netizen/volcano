@@ -4,6 +4,7 @@
   1단 발굴  python ref_sport/hunt.py --topic 축구 --scout   유튜브 검색으로 풀을 넓힌다 (가끔·3분)
   2단 사냥  python ref_sport/hunt.py --topic 축구           풀을 재서 오늘의 후보 (매일·3분)
   검증본    python ref_sport/hunt.py --topic 축구 --best    이미 크게 터진 클립 중에서
+  급등      python ref_sport/hunt.py --topic 축구 --rising  일주일 안에 50만 넘긴 것
   시트      python ref_sport/hunt.py --topic 축구 --sheet   후보 썸네일 → out/<주제>/_후보시트.jpg
   기록      python ref_sport/hunt.py --topic 축구 --took <videoId> ...
 
@@ -98,8 +99,9 @@ def dropped(*texts):
 def is_domestic(*texts):
     """이미 본 나라 원본인가.
 
-    축구는 짹짹(한국)·神ショーツ(일본) 양쪽에 나가므로 한글·가나 둘 다 뺀다.
-    골프는 짧뷰(한국) 하나뿐이라 **일본 것은 막지 않는다** — 한글만 본다.
+    축구·골프 **둘 다** 한국판·일본판을 내므로 한글·가나를 다 뺀다.
+    ★골프는 2026-08-29 까지 `skip_kana=False` 였다 — 「짧뷰(한국) 하나뿐」이라는
+    낡은 이유가 주석에 남아 있었다. 2026-08-28 부터 일본판(`work_jpgolf_*`)을 낸다.
     ★한자만 있는 것은 중국·대만일 수 있어 안 뺀다 (칩칩과 같은 판단)."""
     for t in texts:
         if not t:
@@ -285,13 +287,13 @@ def cap_per_channel(rows, cap):
     return keep + spill          # 버리진 않는다 — 뒤로 밀 뿐이다
 
 
-def save_sheet(rows, extra=None):
+def save_sheet(rows, extra=None, name="_최신시트"):
     """★`{meta, items}` 꼴로 낸다 — 알림기(`ref_notify/notify_hunt.py`)가 그 꼴만 읽는다.
     칩칩 헌터는 맨 목록으로 내는데, 그러면 알림기가 `sheet.get` 에서 그대로 죽는다."""
     meta = {"stamp": time.strftime("%m/%d %H:%M"), "topic": TOPIC,
             "label": CFG["label"], "n_raw": len(rows)}
     meta.update(extra or {})
-    save(os.path.join(OUT, "_최신시트.json"), {"meta": meta, "items": rows})
+    save(os.path.join(OUT, name + ".json"), {"meta": meta, "items": rows})
 
 
 # ── 1단 발굴 ────────────────────────────────────────────────────────────
@@ -509,15 +511,32 @@ def hunt(args):
         print("  " + " · ".join(m["name"][:14] for _, m in radar))
         print("  전부 보려면 --with-repack")
 
+    if getattr(args, "rising", False):
+        # ★급등 — 올린 지 얼마 안 됐는데 벌써 크게 오른 것 (사장님 지시 2026-08-29).
+        #   여기서는 **점수가 아니라 조회수 순**이다. 나이를 이미 잘랐으므로
+        #   남은 것끼리는 조회수가 곧 "얼마나 빨리 올랐나" 다.
+        keep = [r for r in rows
+                if r["age"] <= args.rise_days and r["views"] >= args.rise_views]
+        keep.sort(key=lambda r: -r["views"])
+        keep = cap_per_channel(keep, args.per_ch)[:args.top]
+        head = f"급등 — {args.rise_days}일 이내 {args.rise_views // 10000}만+"
+        if not keep:
+            print(f"\n[급등] {args.rise_days}일 안에 {args.rise_views:,} 넘긴 것이 없다. "
+                  f"(--rise-days · --rise-views 로 넓힐 수 있다)")
+        write_sheet(keep, args, name="_급등시트", head=head)
+        save_sheet(keep, {"mode": head, "pool": len(pool), "radar": len(radar),
+                          "days": args.rise_days}, name="_급등시트")
+        return
+
     rows.sort(key=lambda r: -r["score"])
     rows = cap_per_channel(rows, args.per_ch)[:args.top]
     write_sheet(rows, args)
     save_sheet(rows, {"pool": len(pool), "radar": len(radar), "days": args.days})
 
 
-def write_sheet(rows, args):
+def write_sheet(rows, args, name="_최신시트", head=None):
     mult = " · ".join(f"{n} ×{m:.2f}" for n, m, _ in CFG["shapes"])
-    md = [f"# {TOPIC} 소재 후보 ({CFG['label']}) — 최근 {args.days}일", "",
+    md = [f"# {TOPIC} 소재 후보 ({CFG['label']}) — {head or f'최근 {args.days}일'}", "",
           "점수 = log10(조회) × 그 채널 중앙 대비 배수 × 갈래 배수 × 신선도", "",
           "- **배수**가 크면 그 채널 기준으로 터진 것이다. 절대 조회수보다 이쪽을 믿어라",
           f"- 갈래 배수 — {mult}",
@@ -531,7 +550,7 @@ def write_sheet(rows, args):
     md += ["", "## 고르고 나서", "",
            "```", f"python ref_sport/hunt.py --topic {TOPIC} --took <videoId> [<videoId> ...]",
            "```", "쓴 것은 중복목록에 들어가 다음 실행부터 빠진다."]
-    p = os.path.join(OUT, "_최신시트.md")
+    p = os.path.join(OUT, name + ".md")
     open(p, "w", encoding="utf-8").write("\n".join(md))
     print(f"\n{'#':>3}{'조회':>11}{'배수':>7}  {'갈래':<12}{'허락':<4}{'채널':<18}제목")
     print("─" * 104)
@@ -620,6 +639,12 @@ def main():
     ap.add_argument("--loose", dest="strict", action="store_false", default=True,
                     help="발굴 때 주제 맥락 검사를 끈다 (풀이 주제에서 샌다)")
     ap.add_argument("--ko", action="store_true", help="국내 질의로 발굴한다")
+    ap.add_argument("--rising", action="store_true",
+                    help="급등만 — 올린 지 얼마 안 됐는데 벌써 크게 오른 것")
+    ap.add_argument("--rise-days", dest="rise_days", type=int, default=7,
+                    help="급등: 이 일수 안에 올라온 것만 (기본 7)")
+    ap.add_argument("--rise-views", dest="rise_views", type=int, default=500000,
+                    help="급등: 이 조회수를 넘긴 것만 (기본 50만)")
     ap.add_argument("--ttl", type=float, default=12.0, help="검색 캐시 유효시간")
     ap.add_argument("--sleep", type=float, default=2.5, help="요청 간 쉬는 시간(초)")
     args = ap.parse_args()
@@ -631,7 +656,9 @@ def main():
         # 주제가 정한 방식으로 하루치를 돈다 (topics.py 의 daily_mode)
         if CFG.get("daily_mode") == "best":
             scout(args)     # 오늘 검색으로 새 클립을 풀에 넣고
-            best(args)      # 이미 터진 것 중에서 고른다
+            best(args)      # ① 이미 터진 것 중에서 고르고
+            args.rising = True
+            hunt(args)      # ② 급등(7일·50만)도 같이 낸다 — 시트는 따로다
         else:
             hunt(args)
     elif args.scout:
