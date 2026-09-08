@@ -12,6 +12,30 @@
 시작 전에 `ref_chipchip/chipchip_spec.md` 를 읽는다. 아래는 요약이다.
 (쇼츠 119편 메타 + 대표 5편 프레임 픽셀 실측, 2026-08-19)
 
+## ★★2026-09-08 — 콘텐츠 판단은 MASTER PRESET 이 한다 (아스트라 v1.0)
+
+**소재·TYPE·후킹·전개·말풍선·엔딩·제목**은 이제 아래 두 파일이 정한다.
+이 파일(화면 규격·빌더·발굴·일본판 만드는 법)은 **기술 규격으로 그대로 살아 있다.**
+
+| 무엇 | 어디 |
+|---|---|
+| 판단 규칙 원문 (아스트라 작성 · 고치지 마라) | `ref_chipchip/master_preset_v1.md` |
+| **공장 통합 상태 · 충돌 판정표 · 명령** | **`ref_chipchip/preset_v2.md` ← 먼저 읽어라** |
+| 실행 코드 (TYPE 분기 · 게이트 · 자가검증) | `ref_chipchip/decision.py` |
+| 통합 전 백업 | `ref_chipchip/_backup_preset_20260908/` |
+
+```
+python ref_chipchip/decision.py <workdir> --init     # 뼈대 + 공장값 상속
+python ref_chipchip/decision.py <workdir> --check    # Q01~Q17 · 판정
+python ref_chipchip/decision.py <workdir> --map      # → job.json (V/C/R/H/K 분기 적용)
+python jjack_build.py <workdir>/job.json --check     # ★USE 가 아니면 여기서 막힌다
+```
+
+- **`decision.json` 이 있는 회차만** 관문이 돈다. 없으면 예전 그대로다(축구·야구·골프 무영향)
+- 아래 「하단 자막」·`narration_spec.md` 의 **후킹 `~다는데?` 강제와 엔딩 `~라고 하네요!` 고정**은
+  프리셋과 부딪힌다 — **`preset_v2.md` 충돌 ①·② 를 먼저 보고 판단해라.** ②는 사장님 답 대기다
+- 확대 150%·비중 33% 는 **운영 설정이라 그대로다**(충돌 ③)
+
 ## ★빌더를 새로 짜지 마라 — 화면이 JJACK_J(축구)와 같은 템플릿이다
 
 CLAUDE.md 에 항목이 없어 규격이 없는 줄 알고 새로 만들기 쉽다. **2026-08-19 에 그럴 뻔했다.**
