@@ -15,6 +15,7 @@
 | `<링크> 일본판 뇌전구로 줘` | `ref_jp/CLAUDE.md` |
 | `<인물> 인물형으로 줘` · `<링크> 인물형` | `ref_person/CLAUDE.md` |
 | **`<일본 유명인 이름> 인물형`** · `일본 인물형` · `인물형 일본판` | `ref_person/jp_spec.md` ★일본 인물은 **일본어판이 기본**(사장님 지시 2026-09-04 「한국은 너무 많아서 일본형으로」). 이름만 받으면 끝까지 만든다 |
+| **`연예인 소재 뽑아 줘`** · `아이돌 TOP5 만들어 줘` · `연예인형으로 줘` | `ref_celeb/CLAUDE.md` ★규칙 원문은 `ref_celeb/master_preset_v1.md`(아스트라. **고치지 마라**), 충돌 판정은 `ref_celeb/preset_v2.md` |
 | `<클립> 축구로 줘` · `잭제이로 줘` | `ref_jjack/CLAUDE.md` |
 | `<클립> 야구로 줘` · `<클립> 야구 일본판` | `ref_jjack/CLAUDE.md` (축구와 같은 템플릿) |
 | `<링크> 골프` · `짧뷰로 줘` | `ref_jjack/CLAUDE.md` (★2026-08-29 부터 축구와 같은 템플릿. 채널 조사는 `ref_nono/CLAUDE.md`) |

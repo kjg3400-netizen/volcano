@@ -25,13 +25,46 @@
 | 통합 전 백업 | `ref_chipchip/_backup_preset_20260908/` |
 
 ```
-python ref_chipchip/decision.py <workdir> --init     # 뼈대 + 공장값 상속
-python ref_chipchip/decision.py <workdir> --check    # Q01~Q17 · 판정
-python ref_chipchip/decision.py <workdir> --map      # → job.json (V/C/R/H/K 분기 적용)
-python jjack_build.py <workdir>/job.json --check     # ★USE 가 아니면 여기서 막힌다
+python ref_chipchip/decision.py <kr_wd> --pipeline --source <원본|URL>   # ①판정 (USE 아니면 멈춤)
+python ref_chipchip/decision.py <jp_wd> --adopt <kr_wd>                 # ②일본판이 같은 판정을 쓴다
+python ref_chipchip/decision.py <jp_wd> --brief                         # ③V2_BRIEF.md (제작 두뇌)
+python ref_chipchip/decision.py <jp_wd> --map                           # ④job.json
+python jjack_build.py <jp_wd>/job.json --check                          # ⑤여기서 다시 검사한다
 ```
 
-- **`decision.json` 이 있는 회차만** 관문이 돈다. 없으면 예전 그대로다(축구·야구·골프 무영향)
+## ★★자동 공장 — 소재 찾기부터 납품까지 한 줄로 (2026-09-09 신설)
+
+```
+python ref_chipchip/factory.py                 # 완전 자동 (2 pair = KR 2 + JP 2 = mp4 4개)
+python ref_chipchip/factory.py --want 1
+python ref_chipchip/factory.py --dry           # ★완전 무과금 (관찰·렌더·납품·seen 변경 없음)
+python ref_chipchip/factory.py --select-only   # 선택까지 (관찰은 한다 = 돈이 든다)
+python ref_chipchip/factory.py --resume run_...   # 미완 단계만 재개
+python ref_chipchip/factory_state.py --status     # 실행·예약·락 보기
+```
+
+- **`--want` 는 pair 수다** — 원본 하나에서 칩칩·ランカー 두 벌이 나온다
+- **댄스 실행은 한 번에 하나**다 (OS 락). 죽은 부모만 보고 락을 풀지 않는다 —
+  원장을 확인한 뒤 `--force-unlock`
+- **`--no-qa` 는 자동 공장에서 인자 오류로 거절된다.** 양쪽 QA PASS 뒤에만 납품하고,
+  `deliver --force` 를 부르지 않는다. 공용 `gate_delivery` 와 무관하게 강제된다
+- **seen 은 양쪽 납품이 끝난 뒤에 확정한다** (`VOLCANO_AUTO_RESERVE`). 그 전까지는
+  SQLite 원장의 **예약**이 같은 원본을 다른 실행이 집지 못하게 막는다
+- **후보별로 사장님께 묻지 않는다.** HOLD/REJECT 면 다음 후보로 자동 대체하고,
+  후보·예산이 다 떨어졌을 때만 **한 번** 보고한다. 0편도 정상 종료다
+- 종료 코드: `0` 완료/무과금완료 · `2` 후보·예산 소진(0편) · `3` 부분 · `4` 설정·환경 오류 ·
+  `5` 부분 납품/커밋 대기 · `6` 다른 실행이 잠금 · `130` 중단
+- 실행 기록: `ref_chipchip/out/runs/<run_id>/` (report.json · discovery.json · qa_sandbox)
+  · 원장 `ref_chipchip/out/factory_state.sqlite3`
+
+★**검수의 전역 학습은 격리된다** — 이번 실행이 만든 교훈은 `proposed_lessons.json`
+에만 남고 프로덕션 `ref_qa/lessons.json`·`seals/` 를 자동으로 바꾸지 않는다.
+
+- ★★**2026-09-09 부터 댄스는 `decision.json` 이 없으면 제작이 막힌다.** 조용히 통과하지 않는다.
+  첫 실전 회차가 V2 를 통째로 건너뛴 채 납품된 것을 감사에서 잡았고, 관문을 뒤집었다
+- **일본판은 `--map` 이 뽑은 job 과 다르면 못 굽는다** — 손으로 고치면 어디가 다른지 찍고 멈춘다.
+  한국판 칩칩은 이 대조를 안 한다(기존 스타일 그대로)
+- 축구·야구·골프는 **예전 그대로** — `decision.json` 이 없으면 그냥 통과한다
 - 아래 「하단 자막」·`narration_spec.md` 의 **후킹 `~다는데?` 강제와 엔딩 `~라고 하네요!` 고정**은
   프리셋과 부딪힌다 — **`preset_v2.md` 충돌 ①·② 를 먼저 보고 판단해라.** ②는 사장님 답 대기다
 - 확대 150%·비중 33% 는 **운영 설정이라 그대로다**(충돌 ③)
@@ -201,8 +234,15 @@ python ref_chipchip/hunt.py --took <videoId> ...   # 쓴 것을 중복목록에
           "tempo": 1.3, "pitch": 1, "lang": "JPN"}
 ```
 
-줌 시각·확대 중심·구성은 **한국판 그대로 복사**한다. 확대 중심은 hflip 앞에서 잘리므로
-뒤집을 필요가 없고, **상단효과 x 는 빌더가 뒤집는다**(한국판 좌표를 그대로 둬라).
+확대 중심은 hflip 앞에서 잘리므로 뒤집을 필요가 없고,
+**상단효과 x 는 빌더가 뒤집는다**(한국판 좌표를 그대로 둬라).
+
+- ★★**자동 공장(`factory.py`)에서는 「한국판 그대로 복사」를 쓰지 않는다** (2026-09-09).
+  일본판은 같은 원본 사실(evidence)을 공유하되 **대본·줌·제목을 따로 짠다** —
+  `--adopt` 가 채널 계획을 비우고 `--plan` 이 일본어로 다시 쓴다. 그래야 V2 판단이
+  실제 제작에 반영된다(`verify_job` 이 대조한다). 한국어 전언형 번역·강제 엔딩을
+  적용하지 않고, K 증명 구간은 `t="" · silent · 말풍선 없음` 이 가능하다.
+- **손으로 만드는 일본판**(수동 경로)은 위 「세 줄만 바꾼다」가 그대로 유효하다.
 
 - ★**좌우를 말하는 자막은 반대로 써야 한다.** 「**왼쪽**에서 들어옵니다」→「**右から**入ってくる」.
   번역만 하고 넘어가면 화면과 어긋난다
