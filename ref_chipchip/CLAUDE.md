@@ -69,6 +69,56 @@ python ref_chipchip/factory_state.py --status     # 실행·예약·락 보기
   프리셋과 부딪힌다 — **`preset_v2.md` 충돌 ①·② 를 먼저 보고 판단해라.** ②는 사장님 답 대기다
 - 확대 150%·비중 33% 는 **운영 설정이라 그대로다**(충돌 ③)
 
+## ★★2026-09-10 — 소재는 **점수 앞단의 관문**을 먼저 통과해야 한다 (SOURCE FIT)
+
+점수(E/O/P/U/A/F) 86.2점 1등 후보가 사람이 보니 채널 결이 아니었다. 상세는
+**`preset_v2.md` 「소재 관문(SOURCE FIT)」** 에 있고, 여기 세 줄이 전부다.
+
+- `material_fit` — 관찰이 답한다. `kind=PERFORMANCE_ONLY`(퍼포먼스·안무 감상) ·
+  「설명 없이 안 읽힌다」 · 「크롭하면 의미가 사라진다」 중 하나면 **REJECT**
+- `zoom_capacity` — 기계가 잰다. 관찰 bbox 로 **후보 단계에서** 확대 가능 시간을 재고,
+  `usable` 의 1/3 을 못 채우면 `ZOOM_CAPACITY_BELOW_FLOOR` 로 REJECT
+- **음성 사례 `GmPDNuLHmTg`** — 점수 86.2 · 확대 가능 0% · 검수 KR hard 7 / JP hard 4.
+  교훈 L-0047~L-0050. 기록은 `_discover/<vid>/decision.json` 의 REJECT 캐시 —
+  **`seen.json`(사용 완료)과 섞지 않는다**
+
+## ★★2026-09-10 — 계획은 **렌더 전에** 사전검사를 통과해야 한다 (PLAN PRECHECK)
+
+QA 가 완성본에서 잡아 낸 지적이 전부 **굽기 전에 알 수 있는 것**이었다 (work_*_GmPDNuLHmTg).
+30분 굽고 15분 검수해서 알 일이 아니라서, 그 검사를 계획 단계로 당겼다.
+
+```
+python ref_chipchip/decision.py <wd> --plan                # 계획 → 검증 → 사전검사 (자동 2회 재작성)
+python ref_chipchip/decision.py <wd> --precheck            # 이미 있는 계획만 다시 잰다 (공짜)
+python ref_chipchip/decision.py <wd> --plan --plan-repair 0   # 재작성 없이 한 번만
+```
+
+| 검사 | 무엇을 재나 | 어디 |
+|---|---|---|
+| `sub.match_frame` | **자막이 떠 있는 창**(source_in ~ +hold)을 화면 근거가 빈틈없이 덮나 | `plan_precheck.PC1` |
+| `sub.word` | 사물을 관찰이 부른 이름으로 부르나 (에스컬레이터↔階段) | `TERM_RULES` |
+| `zoom.window_misses_subject` | 확대창이 **핵심 인물**을 담을 수 있나 (관찰 bbox 로 계산) | `PC2` · `media_adapter.core_guard` |
+| `story.axis` | 후킹·CORE EVENT·회수·제목이 한 축인가 | `PC3` |
+| `texts.strategy` | TYPE 이 요구하는 말풍선 **최소 개수**를 채웠나 | `ROUTE_POLICY.text_min_total` |
+| `lesson` | 등록된 교훈(regex)에 걸리나 | `ref_qa/lessons.json` |
+
+- **hard 가 하나라도 있으면 FAIL** — 계획만 최대 2번 다시 짜고(지적문을 의뢰문에 붙인다),
+  그래도 FAIL 이면 `plan_status=PRECHECK_FAILED` 로 두고 **굽지 않는다**.
+  사유는 `<wd>/obs/plan_hold.md`, 판정 전문은 `<wd>/obs/precheck.json`
+- ★**메타 근거로 자막을 못 건다.** 「원본이 편집본이다」·「화면이 아니라 소리」처럼
+  무엇이 보이는지 말하지 않는 E 는 구간이 넓어서, 그것 하나로 **관찰이 전혀 없는 4초**에
+  자막을 걸 수 있었다 (2026-09-09 실기 「階段は下へ運び続ける」 14.5~18.5s). 그 문을 닫았다
+- ★**자막 창은 계획이 적은 `source_out` 이 아니라 `source_in + hold`** 다. hold 는 읽을
+  시간·TTS 로 늘어난다 — 늘어난 만큼 창도 늘어나서 「창 끝에서 자막이 거짓이 되는」 사고가 났다
+- ★**전칭·지속 주장을 기계가 막는다.** 誰も·一度も·最後まで·ずっと·아무도·한 번도·내내 는
+  회차 전체를 거는 말이라 창 안 관찰로 참이 못 된다(제목도 같다). 아직·まだ 는 그 창이
+  **근거 하나 안에 통째로** 들어가고 그 근거가 「내려오는 중」이 아닐 때만 쓴다
+- ★**확대는 이제 모든 구간을 잰다.** 예전엔 증명(보호) 구간만 봤다 — 그래서 보호가 아닌
+  자리의 확대창이 주인공을 통째로 놓쳤다(L-0034). 중심을 인물에 맞춰 고칠 수 있으면 고치고,
+  못 고치면 그 구간만 기본 배율로 돌린다. **배율 150%·비중 33% 는 안 낮춘다** —
+  하한을 못 채우면 `HOLD_ZOOM_SUBJECT_CONFLICT` 로 멈춘다
+- 사전검사를 안 거친 옛 VALID 계획은 **재사용하지 않는다** (`factory.build_channel`)
+
 ## ★빌더를 새로 짜지 마라 — 화면이 JJACK_J(축구)와 같은 템플릿이다
 
 CLAUDE.md 에 항목이 없어 규격이 없는 줄 알고 새로 만들기 쉽다. **2026-08-19 에 그럴 뻔했다.**
