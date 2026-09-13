@@ -1,0 +1,11 @@
+[폰에서 온 지시 — 사장님]
+정치(우격다짐) 용혜인 편을 이어서 제작해줘. 작업 폴더 C:/Users/kjg34/Desktop/hitomi_downloaded_youtube/볼케이노/work_active/20260913_002018_9c576663 (공장 JOB 20260913_002018_9c576663 · 승인 소재 D:/제작공장/02_제작대기_최종선택/정치/20260913_용혜인_기자회견문_지령받았나_QD1iVS55Ids). 먼저 그 폴더의 SHARED_PROGRESS.md 와 _drive_state.json · _drive_log.txt 를 읽는다. 드라이브는 thumbnail 단계에서 thumb_ok 를 기다리며 18:19 부터 멈춰 있다 — 사장님이 20:10 경 폰으로 「응 용혜인 맞아」라고 썸네일 인물(thumb_auto.png · _thumb_key_web_06.png)을 확인하셨다. ① python "C:/Users/kjg34/Desktop/볼케이노 작업실/우격다짐/저장소/runner/volcano_auto.py" resume --work "C:/Users/kjg34/Desktop/hitomi_downloaded_youtube/볼케이노/work_active/20260913_002018_9c576663" --answer thumb_ok=true 로 이어간다(build → check). 제목·구성안·나레이션 4개·사진·썸네일은 이미 사장님 결정대로 확정된 것이니 바꾸지 않는다(p_auto.json = 손 구성안). ② check 에서 떨어지면 떨어진 항목만 고쳐 다시 굽는다. 최종 승인(final_ok 류)을 물으면 자막 창 프레임·나레이션 사진·썸네일을 실제로 확인한 뒤 자신 있을 때만 true 로 답한다. 유료 EvoLink 는 부르지 않는다(이 회차는 안 쓴다). ③ 납품은 진중권 편(work_active/20260913_002017_128dc34a 의 delivered.json)과 같은 절차로 --category 정치 로 한다. 제목은 「이성 찾으라던 용혜인 사퇴 / 누가 이성 잃었나? (정치)」. 작업 폴더에 delivered.json 이 남아야 한다 — 폰 알림 지킴이가 그 파일을 본다. ④ 납품 뒤 python factory_run.py -Action finish -JobId 20260913_002018_9c576663 -FinalFiles "@('<최종 mp4 경로>')" 로 마감을 시도하고, 안 되면 사유만 남긴다(도장을 손으로 만들지 않는다). ⑤ 끝나든 막히든 SHARED_PROGRESS.md 에 결과·변경 파일·남은 일을 갱신한다. 납품하지 못하고 멈추면 python ref_notify/tg.py "용혜인 편 멈춤 — <사유 한 줄>" 로 폰에 한 줄만 보낸다(사장님이 끝나면 알려 달라 하셨다).
+
+위 지시대로 볼케이노 작업을 끝까지 진행해라.
+
+- `CLAUDE.md` 규약을 그대로 따른다.
+- **되묻지 마라.** 폰에서 온 것이라 답을 받을 수 없다. 판단이 필요하면
+  가장 가까운 쪽을 골라 진행하고, 무엇을 골랐는지 마지막에 밝힌다.
+- 소재를 고르라는 뜻이면 헌터 시트(`ref_*/out/_최신시트.md`)를 먼저 열어 본다.
+- 다 만들었으면 반드시 `python deliver.py <workdir> "<제목> (카테고리)"` 로 납품한다.
+- 이 지시 범위 밖의 일은 하지 않는다.

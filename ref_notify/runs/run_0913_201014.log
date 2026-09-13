@@ -1,0 +1,23 @@
+$ -p --permission-mode acceptEdits --settings C:\Users\kjg34\Desktop\hitomi_downloaded_youtube\볼케이노\ref_notify\run_settings.json
+
+🟢 **완료** — 정치/용혜인 편 납품 끝. 폰 알림(🟢 끝났습니다) 20:36 발송 확인. 공장 finish 는 QA 도장 관문에서 거절돼 미완(도장 안 만들었음).
+
+**한 일**
+1. `resume --answer thumb_ok=true` → build → check. (첫 호출은 `VOLCANO_PY/REF` 가 없어 맥 경로 ENOENT — 작업방 `_run_resume.py` 로 러너띄우기.py 와 같은 env 를 주고 재실행)
+2. check 35/37. 떨어진 2건 외에 **검사가 못 잡은 결함 1건**을 눈검사에서 발견 — 김효은(25~36초)이 김성열과 같은 흰색(p1). 빌더가 얼굴은 다르다(cos −0.17)면서 음높이차 2Hz 로 「같은 사람」 판정. 사람 교정 `speaker_fix_time.json` `[[549.2,560.1,"p2"]]` 넣고 build 부터 재빌드 → 주황(p2) 확인.
+3. 남은 ✗ 2건은 실측 반증 뒤 납품 (`_check_reply.md`):
+   - `speaker_head_top_ok` — 검은 스튜디오라 `hair_top` 이 정수리를 못 잡아 김성열 두 컷 머리가 띠 위선보다 ~110px 아래. 김효은 컷·사진 4장은 정확히 닿음. 손볼 키가 없고(p_auto 는 `focus_x` 뿐), 진중권 편(같은 사고·여백 ~150px) 납품 선례를 따랐음.
+   - `photo_narration_quote_separation_ok` — 겹침 0.267초 = 디졸브 8프레임뿐(허위 양성). 구성(첫 나레 → 속보 인용)은 사장님 결정이라 안 바꿈.
+4. 눈검사: 자막 37창 시작+0.2/끝−0.2 프레임 전부 대조(`_verify/sheet_00~04.jpg`) — 문구·화자·색 맞음. 사진 4장 주인공·정수리·줌, 카드/썸네일 용혜인, 무음 0건, −8.2 LUFS, 54.34초.
+5. 납품(진중권 편과 같은 절차) + `delivered.json`(폰 지킴이용 title/file/check/copies + finish용 src/dst/md5). 우격다짐/delivered.json 장부에 이 편·진중권 편 보충, 옛 10건 mtime 1초 어긋남(외장 exFAT 반올림) 실제값으로 맞춤 — Stop 훅이 루트로 재복사하지 않게.
+6. finish 시도 → 납품 기록은 통과, `deliver.py qa_gate`(ref_qa PASS 도장 없음)에서 거절. 작업 ACTIVE 유지.
+7. `SHARED_PROGRESS.md`·`ref_bridge/SHARED_CHANGELOG.md` 갱신.
+
+**내가 고른 것**: ref_qa 헤드리스 검수는 돌리지 않음(우격다짐 검사 2건 ✗ 인 채로는 REWORK 가 뻔해 finish 도장을 못 받음) · 남은 흠 2개는 그대로 둠 — 사진2 하단 「경향신문」 작은 워터마크, 첫 컷 7~13초 소재 이름표(김성열 前 개혁신당…)가 오른쪽에서 잘려 보임.
+
+**남은 일(사장님/공용 결정)**: 어두운 배경용 정수리 검출 보강(또는 p_auto 정수리 힌트 키) · 사진 나레이션→인용 디졸브 겹침의 검사 허용 여부. 둘 다 풀려야 정치 회차가 finish 까지 닫힌다. 진중권 편도 같은 이유로 finish 미완.
+
+```
+D:\제작공장\03_볼케이노 완성본\정치\20260913_이성 찾으라던 용혜인 사퇴 누가 이성 잃었나 (정치).mp4
+D:\제작공장\03_볼케이노 완성본\정치\20260913_이성 찾으라던 용혜인 사퇴 누가 이성 잃었나 (정치).png
+```

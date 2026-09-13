@@ -1,3 +1,9 @@
+<!-- SHARED_OPERATIONS_ENTRY v1 -->
+## 2026-09-13 Claude·Astra 공통 기준 — 먼저 읽기
+작업 시작·재개·인계 전에 `C:/Users/kjg34/Desktop/hitomi_downloaded_youtube/볼케이노/ref_bridge/SHARED_OPERATIONS.md`와 같은 폴더의 `SHARED_CHANGELOG.md`를 읽는다. 최소 2026-10-13까지 공동 운영하며 자동 해제하지 않는다.
+정치 외 채널은 Astra 주도, 정치 생성은 Claude 전담이다. 정치 규격은 우격다짐 작업실 원본을 따른다. 공통 원본의 최신 정정이 아래 과거 설명보다 우선하며 채널별 상세 규격·사용자 승인·유료 호출·QA 관문을 유지한다. 새 결정과 진행 상황은 공통 원본/변경 기록/회차 SHARED_PROGRESS.md에 남긴다. 대화와 훅의 자동 공유를 가정하지 않는다.
+<!-- /SHARED_OPERATIONS_ENTRY -->
+
 
 ## 2026-09-12 정치 제작 종료 후 외장 이전 완료 — 최신 정정
 사용자가 정치 제작 종료를 확인했다. 정치도 이제 다른 채널과 같은 외장 보관·제작대기 승인 규칙을 따른다. 과거의 '정치 제작 중, PC 유지, 이전 보류'는 종료된 상태 설명이며 앞으로의 예외가 아니다.

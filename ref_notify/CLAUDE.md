@@ -1,3 +1,9 @@
+<!-- SHARED_OPERATIONS_ENTRY v1 -->
+## 2026-09-13 Claude·Astra 공통 기준 — 먼저 읽기
+작업 시작·재개·인계 전에 `C:/Users/kjg34/Desktop/hitomi_downloaded_youtube/볼케이노/ref_bridge/SHARED_OPERATIONS.md`와 같은 폴더의 `SHARED_CHANGELOG.md`를 읽는다. 최소 2026-10-13까지 공동 운영하며 자동 해제하지 않는다.
+정치 외 채널은 Astra 주도, 정치 생성은 Claude 전담이다. 정치 규격은 우격다짐 작업실 원본을 따른다. 공통 원본의 최신 정정이 아래 과거 설명보다 우선하며 채널별 상세 규격·사용자 승인·유료 호출·QA 관문을 유지한다. 새 결정과 진행 상황은 공통 원본/변경 기록/회차 SHARED_PROGRESS.md에 남긴다. 대화와 훅의 자동 공유를 가정하지 않는다.
+<!-- /SHARED_OPERATIONS_ENTRY -->
+
 <!-- 볼케이노 「텔레그램」 규격. 모든 채널 공통 규약(35초 상한 · TTS 숫자 오독 · 실사 사진 우선 · 납품 · 제목 카테고리 · 채널 폴더 규약)은 ../CLAUDE.md 에 있다. 여기 있는 것을 ../CLAUDE.md 로 다시 복사하지 마라. -->
 
 # 텔레그램 (`ref_notify/`) — 사장님 폰과 주고받는다
@@ -143,6 +149,8 @@
 · **`tg_run.py` (주문 인식·접수 — 단독 실행하면 판정 자가검사)**
 · **`tg_worker.py` (주문 하나를 굽는 일꾼 — 떼어 내 도는 헤드리스 claude)**
 · **`tg_chat.py` (그 밖의 말에 답하기 — `python ref_notify/tg_chat.py "물음"` 으로 시험)**
+· `tg_wait_done.py` (사장님이 「끝나면 알려줘」 하신 **그 한 건**만 — `<workdir>/delivered.json` 이 생기면
+  한 줄 보내고 끝난다. `--detach` 로 떼어 낸다. 위 PUSH 스위치와 무관한 일회성 대답이니 훅·헌터에서 부르지 마라)
 · 스위치는 `run_config.json` · 권한 울타리는 `run_settings.json`
 · 주문 장부는 `orders.json` · 대화 이음은 `chat_state.json` · 실행 기록은 `runs/`
 · 상태는 `bot_state.json`(offset·찜) · 창고는 `inbox/inbox.json` + `ref_clip/queue.json`

@@ -1,3 +1,9 @@
+<!-- SHARED_OPERATIONS_ENTRY v1 -->
+## 2026-09-13 Claude·Astra 공통 기준 — 먼저 읽기
+작업 시작·재개·인계 전에 `C:/Users/kjg34/Desktop/hitomi_downloaded_youtube/볼케이노/ref_bridge/SHARED_OPERATIONS.md`와 같은 폴더의 `SHARED_CHANGELOG.md`를 읽는다. 최소 2026-10-13까지 공동 운영하며 자동 해제하지 않는다.
+정치 외 채널은 Astra 주도, 정치 생성은 Claude 전담이다. 정치 규격은 우격다짐 작업실 원본을 따른다. 공통 원본의 최신 정정이 아래 과거 설명보다 우선하며 채널별 상세 규격·사용자 승인·유료 호출·QA 관문을 유지한다. 새 결정과 진행 상황은 공통 원본/변경 기록/회차 SHARED_PROGRESS.md에 남긴다. 대화와 훅의 자동 공유를 가정하지 않는다.
+<!-- /SHARED_OPERATIONS_ENTRY -->
+
 <!-- 볼케이노 「일본판 뇌전구」 규격. 모든 채널 공통 규약(35초 상한 · TTS 숫자 오독 · 실사 사진 우선 · 납품 · 제목 카테고리 · 채널 폴더 규약)은 ../CLAUDE.md 에 있다. 여기 있는 것을 ../CLAUDE.md 로 다시 복사하지 마라. -->
 
 # 일본판 뇌전구
