@@ -1,3 +1,6 @@
+## 2026-09-15 댄스 사용자 확정 — 관련 과거 설명보다 우선
+현재 소재·성과 해석·기본/효과/노란 강조자막 기준은 `ref_chipchip/OPERATING_RULES.md`를 먼저 읽는다. 한국 운영은 방탐(구 칩칩), 일본은 ランカー다. 교사·부모는 성공 사례이지 필수 유형이 아니다. 기존 API·TTS·기술 규격은 유지하며 이 정정의 적용 범위만 원본 문서에 따른다.
+
 <!-- SHARED_OPERATIONS_ENTRY v1 -->
 ## 2026-09-13 Claude·Astra 공통 기준 — 먼저 읽기
 작업 시작·재개·인계 전에 `C:/Users/kjg34/Desktop/hitomi_downloaded_youtube/볼케이노/ref_bridge/SHARED_OPERATIONS.md`와 같은 폴더의 `SHARED_CHANGELOG.md`를 읽는다. 최소 2026-10-13까지 공동 운영하며 자동 해제하지 않는다.
