@@ -250,7 +250,7 @@ python ref_chipchip/zoom_probe.py <mp4 또는 폴더> [--sheet]      # 완성본
 
 ## 재사용 스크립트
 
-빌더는 축구 것을 그대로 — `jjack_build.py` · `jjack_capcut.py` · `jjack_ccheck.py`.
+빌더는 축구 것을 그대로 — `jjack_build.py` (`jjack_capcut.py` · `jjack_ccheck.py` 는 2026-09-17 부터 안 부른다 — 납품은 mp4).
 조사 스크립트는 `칩칩/work_chipchip_simpson/` 에 있고 다른 채널에도 그대로 돌아간다:
 `cc.py` (RSS+카탈로그) · `cc_measure.py` · `cc_measure2.py` (프레임 실측) · `cc_row.py`
 · `profile.py` (채널 전수 프로필) · `sheet_ref.py` · `sheet_hunt.py` (후보 시트)
