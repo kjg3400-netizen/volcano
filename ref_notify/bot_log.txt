@@ -99,3 +99,4 @@
 09-20 02:58:00 [bot] 잠금이 359초 묵었다 — 뺏는다
 09-20 23:35:06 [bot] getUpdates 실패: The read operation timed out
 09-21 21:18:01 [bot] 잠금이 28620초 묵었다 — 뺏는다
+09-22 19:37:12 [bot] getUpdates 실패: <urlopen error [Errno 11001] getaddrinfo failed>
