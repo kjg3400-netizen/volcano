@@ -1,3 +1,12 @@
+<!-- MATERIAL_SELECTION_STANDARD_20260923 -->
+## 2026-09-23 사용자 확정 — 모든 공장 소재 엄선 최우선
+소재 발굴·추천·제작 시작/재개·인계 전 [MATERIAL_SELECTION_STANDARD.md](C:/Users/kjg34/Desktop/hitomi_downloaded_youtube/볼케이노/ref_bridge/MATERIAL_SELECTION_STANDARD.md)를 읽고 적용한다. Claude·Astra와 모든 채널에 동일 적용한다.
+- 종목/분야·조회수·황당한 사연보다 실제 원본의 강한 장면/발언/사실과 시청 보상을 먼저 확인한다. 약한 소재를 설명·효과로 억지로 살리거나 편수를 채우려고 넣지 않는다.
+- 핵심 타임코드/근거 위치, 실제 관찰 내용, 강한 이유, 약점, 편집 후 핵심 보존 가능성과 비교 선정 이유를 기존 후보 기록 또는 material_review.md에 남겨 USE/HOLD/REJECT를 판단한다. 불충분하면 추가 발굴하거나 제외한다.
+- 제작 담당도 원본과 근거를 확인하고, 최종 검수에서 핵심·주체·결과가 제대로 전달되는지 재확인한다. 미확인/주관적 판단을 자동 PASS로 만들지 않는다.
+- 기존 채널별 언어판·프리셋·API/TTS·검수·담당 분담 유지. 일반 작업 Gemini SKIPPED_POLICY. 열린 세션의 자동 반영을 가정하지 않으며 다음 시작/재개 시 반드시 읽는다. 이 등록만으로 새 제작·업로드·자동화를 시작하지 않는다.
+<!-- /MATERIAL_SELECTION_STANDARD_20260923 -->
+
 <!-- SHARED_OPERATIONS_ENTRY v1 -->
 ## 2026-09-13 Claude·Astra 공통 기준 — 먼저 읽기
 작업 시작·재개·인계 전에 `C:/Users/kjg34/Desktop/hitomi_downloaded_youtube/볼케이노/ref_bridge/SHARED_OPERATIONS.md`와 같은 폴더의 `SHARED_CHANGELOG.md`를 읽는다. 최소 2026-10-13까지 공동 운영하며 자동 해제하지 않는다.
