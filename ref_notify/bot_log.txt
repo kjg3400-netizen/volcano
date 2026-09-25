@@ -111,3 +111,4 @@
 09-23 20:52:00 [bot] 이미 돌고 있다 — 그냥 나간다
 09-23 20:53:00 [bot] 잠금이 359초 묵었다 — 뺏는다
 09-24 15:57:59 [bot] 잠금이 44879초 묵었다 — 뺏는다
+09-25 00:28:23 [bot] getUpdates 실패: <urlopen error _ssl.c:983: The handshake operation timed out>
