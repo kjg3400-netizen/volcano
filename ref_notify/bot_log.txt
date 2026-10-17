@@ -6524,3 +6524,11 @@
 10-16 22:33:03 [bot] getUpdates HTTP 409
 10-16 22:37:05 [bot] getUpdates HTTP 409
 10-17 23:11:04 [bot] 잠금이 88264초 묵었다 — 뺏는다
+10-17 23:12:06 [bot] getUpdates HTTP 409
+10-17 23:15:02 [bot] getUpdates HTTP 409
+10-17 23:18:02 [bot] getUpdates HTTP 409
+10-17 23:19:43 [bot] getUpdates HTTP 409
+10-17 23:21:05 [bot] getUpdates HTTP 409
+10-17 23:24:03 [bot] getUpdates HTTP 409
+10-17 23:27:01 [bot] getUpdates HTTP 409
+10-17 23:30:02 [bot] getUpdates HTTP 409
