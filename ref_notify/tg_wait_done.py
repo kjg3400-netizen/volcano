@@ -73,7 +73,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("workdir")
     ap.add_argument("--label", default="회차")
-    ap.add_argument("--outdir", default="D:/제작공장/03_볼케이노 완성본/정치")
+    ap.add_argument("--outdir", default='\\\\192.168.0.2\\김중기\\제작공장\\완성본\\정치')
     ap.add_argument("--stall", type=int, default=90, help="이 분 동안 변화가 없으면 한 번 알린다")
     ap.add_argument("--hours", type=float, default=12.0, help="이 시간이 지나면 포기하고 끝난다")
     ap.add_argument("--detach", action="store_true")
